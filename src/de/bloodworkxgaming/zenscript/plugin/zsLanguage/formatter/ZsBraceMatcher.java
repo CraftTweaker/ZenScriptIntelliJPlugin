@@ -12,7 +12,7 @@ public class ZsBraceMatcher implements PairedBraceMatcher {
     @Override
     public BracePair[] getPairs() {
         return new BracePair[]{
-                new BracePair(ZsTypes.L_ROUND_BRACKET, ZsTypes.R_ROUND_BRACKET, true),
+                new BracePair(ZsTypes_old.L_ROUND_BRACKET, ZsTypes_old.R_ROUND_BRACKET, true),
         };
     }
 

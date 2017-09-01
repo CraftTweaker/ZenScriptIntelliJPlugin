@@ -23,7 +23,10 @@ public class ZsParser implements PsiParser, LightPsiParser {
     boolean r;
     b = adapt_builder_(t, b, this, null);
     Marker m = enter_section_(b, 0, _COLLAPSE_, null);
-    if (t == PROPERTY) {
+    if (t == BRACKETS) {
+      r = brackets(b, 0);
+    }
+    else if (t == PROPERTY) {
       r = property(b, 0);
     }
     else {
@@ -37,7 +40,55 @@ public class ZsParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // property|COMMENT|CRLF
+  // (L_ROUND_BRACKET ? R_ROUND_BRACKET) | (L_ANGLE_BRACKET ? R_ANGLE_BRACKET)
+  public static boolean brackets(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "brackets")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, BRACKETS, "<brackets>");
+    r = brackets_0(b, l + 1);
+    if (!r) r = brackets_1(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // L_ROUND_BRACKET ? R_ROUND_BRACKET
+  private static boolean brackets_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "brackets_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = brackets_0_0(b, l + 1);
+    r = r && consumeToken(b, R_ROUND_BRACKET);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // L_ROUND_BRACKET ?
+  private static boolean brackets_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "brackets_0_0")) return false;
+    consumeToken(b, L_ROUND_BRACKET);
+    return true;
+  }
+
+  // L_ANGLE_BRACKET ? R_ANGLE_BRACKET
+  private static boolean brackets_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "brackets_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = brackets_1_0(b, l + 1);
+    r = r && consumeToken(b, R_ANGLE_BRACKET);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // L_ANGLE_BRACKET ?
+  private static boolean brackets_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "brackets_1_0")) return false;
+    consumeToken(b, L_ANGLE_BRACKET);
+    return true;
+  }
+
+  /* ********************************************************** */
+  // property|COMMENT|CRLF|brackets
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
     boolean r;
@@ -45,6 +96,7 @@ public class ZsParser implements PsiParser, LightPsiParser {
     r = property(b, l + 1);
     if (!r) r = consumeToken(b, COMMENT);
     if (!r) r = consumeToken(b, CRLF);
+    if (!r) r = brackets(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }

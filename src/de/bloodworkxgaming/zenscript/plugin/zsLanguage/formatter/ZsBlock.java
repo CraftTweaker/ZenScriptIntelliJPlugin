@@ -61,7 +61,7 @@ public class ZsBlock extends AbstractBlock {
 
 /*
         // we indent if this element corresponds to a non-root "statements" expression
-        if (myNode.getElementType() == ZsTypes.
+        if (myNode.getElementType() == ZsTypes_old.
                 && myNode.getTreeParent().getElementType() != HbTokenTypes.FILE) {
             indent = Indent.getNormalIndent(); // todo should we pass true for relativeToDirectParent?
         } else {

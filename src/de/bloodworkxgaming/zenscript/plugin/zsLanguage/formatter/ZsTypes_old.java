@@ -4,7 +4,7 @@ import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.tree.TokenSet;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.ZsLanguage;
 
-public class ZsTypes {
+public class ZsTypes_old {
     /**
      * Normal ElementTypes
      */

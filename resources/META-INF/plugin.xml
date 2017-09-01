@@ -31,6 +31,8 @@
         <lang.braceMatcher implementationClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.formatter.ZsBraceMatcher" language="ZENSCRIPT"/>
         <lang.commenter language="ZENSCRIPT" implementationClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.formatter.ZsCommenter"/>
         <lang.parserDefinition language="ZENSCRIPT" implementationClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.parsing.ZsParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="ZENSCRIPT" implementationClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.formatter.ZsSyntaxHighlighterFactory"/>
+        <colorSettingsPage implementation="de.bloodworkxgaming.zenscript.plugin.zsLanguage.formatter.ZsColorSettingsPage"/>
 
     </extensions>
 

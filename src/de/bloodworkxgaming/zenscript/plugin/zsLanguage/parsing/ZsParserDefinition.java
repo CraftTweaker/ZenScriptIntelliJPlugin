@@ -8,15 +8,19 @@ import com.intellij.openapi.project.Project;
 import com.intellij.psi.FileViewProvider;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
+import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
-import de.bloodworkxgaming.zenscript.plugin.zsLanguage.formatter.ZsTypes;
+import de.bloodworkxgaming.zenscript.plugin.zsLanguage.ZsLanguage;
+import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsPsiFile;
+import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes;
 import org.jetbrains.annotations.NotNull;
 
 public class ZsParserDefinition implements ParserDefinition {
-    public ZsParserDefinition() {
-        System.out.println("ZsParserDefinition has been created");
-    }
+    public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
+    public static final TokenSet COMMENTS = TokenSet.create(ZsTypes.COMMENT);
+
+    public static final IFileElementType FILE = new IFileElementType(ZsLanguage.INSTANCE);
 
     @NotNull
     @Override
@@ -26,45 +30,45 @@ public class ZsParserDefinition implements ParserDefinition {
 
     @Override
     public PsiParser createParser(Project project) {
-        throw new UnsupportedOperationException("Should not be called directly");
+        return new ZsParser();
     }
 
     @Override
     public IFileElementType getFileNodeType() {
-        return null;
+        return FILE;
     }
 
     @NotNull
     @Override
     public TokenSet getWhitespaceTokens() {
-        return ZsTypes.WHITESPACE_SET;
+        return WHITE_SPACES;
     }
 
     @NotNull
     @Override
     public TokenSet getCommentTokens() {
-        return ZsTypes.JAVA_COMMENT_BIT_SET;
+        return COMMENTS;
     }
 
     @NotNull
     @Override
     public TokenSet getStringLiteralElements() {
-        return null;
+        return TokenSet.EMPTY;
     }
 
     @NotNull
     @Override
     public PsiElement createElement(ASTNode node) {
-        return null;
+        return ZsTypes.Factory.createElement(node);
     }
 
     @Override
     public PsiFile createFile(FileViewProvider viewProvider) {
-        return null;
+        return new ZsPsiFile(viewProvider);
     }
 
     @Override
     public SpaceRequirements spaceExistanceTypeBetweenTokens(ASTNode left, ASTNode right) {
-        return null;
+        return SpaceRequirements.MAY;
     }
 }
