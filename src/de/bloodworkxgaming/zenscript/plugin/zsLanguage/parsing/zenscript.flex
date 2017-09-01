@@ -7,6 +7,7 @@ import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes;
 import com.intellij.psi.TokenType;
 
 import static de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes.*;
+import static com.intellij.psi.TokenType.*;
 
 // suppress various warnings/inspections for the generated class
 @SuppressWarnings ({"FieldCanBeLocal", "UnusedDeclaration", "UnusedAssignment", "AccessStaticViaInstance", "MismatchedReadAndWriteOfArray", "WeakerAccess", "SameParameterValue", "CanBeFinal", "SameReturnValue", "RedundantThrows", "ConstantConditions"})
@@ -24,6 +25,8 @@ import static de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes.*;
 
 
 %{
+    StringBuffer string = new StringBuffer();
+
     public _ZsLexer() {
         this(null);
   }
@@ -96,10 +99,10 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
   "=="                           { return ZsTypes_old.EQEQ; }
   "+"                            { return ZsTypes_old.PLUS; }
   */
-    \"  { string.setLength(0); yybegin(STRING); }
+    // \"  { string.setLength(0); yybegin(STRING); }
 
     {END_OF_LINE_COMMENT}                       { yybegin(YYINITIAL); return ZsTypes.COMMENT; }
-    {KEY_CHARACTER}+                            { yybegin(YYINITIAL); return ZsTypes.KEY; }
+    // {KEY_CHARACTER}+                            { yybegin(YYINITIAL); return ZsTypes.KEYWORD; }
     {SEPARATOR}                                 { yybegin(WAITING_VALUE); return ZsTypes.SEPARATOR; }
 
 

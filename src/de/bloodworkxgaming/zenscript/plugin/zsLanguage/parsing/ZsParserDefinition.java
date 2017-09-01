@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class ZsParserDefinition implements ParserDefinition {
     public static final TokenSet WHITE_SPACES = TokenSet.create(TokenType.WHITE_SPACE);
-    public static final TokenSet COMMENTS = TokenSet.create(ZsTypes.COMMENT);
+    public static final TokenSet COMMENTS = TokenSet.create(ZsTypes.LINE_COMMENT, ZsTypes.BLOCK_COMMENT);
 
     public static final IFileElementType FILE = new IFileElementType(ZsLanguage.INSTANCE);
 
