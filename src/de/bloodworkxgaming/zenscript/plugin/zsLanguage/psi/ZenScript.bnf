@@ -1,5 +1,5 @@
 {
-  parserClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.parsing.SimpleParser"
+  parserClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.parsing.ZsParser"
 
   extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
@@ -8,7 +8,7 @@
   psiPackage="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi"
   psiImplPackage="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl"
 
-  elementTypeHolderClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.formatter.ZsTypes"
+  elementTypeHolderClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes"
   elementTypeClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsElementType"
   tokenTypeClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTokenType"
 }
