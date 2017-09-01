@@ -16,8 +16,12 @@ public interface ZsTypes {
   IElementType KEY = new ZsTokenType("KEY");
   IElementType L_ANGLE_BRACKET = new ZsTokenType("L_ANGLE_BRACKET");
   IElementType L_ROUND_BRACKET = new ZsTokenType("L_ROUND_BRACKET");
+  IElementType L_SQUARE_BRACKET = new ZsTokenType("L_SQUARE_BRACKET");
+  IElementType L_SWIRL_BRACKET = new ZsTokenType("L_SWIRL_BRACKET");
   IElementType R_ANGLE_BRACKET = new ZsTokenType("R_ANGLE_BRACKET");
   IElementType R_ROUND_BRACKET = new ZsTokenType("R_ROUND_BRACKET");
+  IElementType R_SQUARE_BRACKET = new ZsTokenType("R_SQUARE_BRACKET");
+  IElementType R_SWIRL_BRACKET = new ZsTokenType("R_SWIRL_BRACKET");
   IElementType SEPARATOR = new ZsTokenType("SEPARATOR");
   IElementType VALUE = new ZsTokenType("VALUE");
 

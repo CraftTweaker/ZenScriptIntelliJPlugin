@@ -12,10 +12,14 @@
   elementTypeClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsElementType"
   tokenTypeClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTokenType"
 }
-  zsFile ::= item_*
 
-  private item_ ::= (property|COMMENT|CRLF|brackets)
+zsFile ::= item_*
 
-  property ::= (KEY? SEPARATOR VALUE?) | KEY
+private item_ ::= (property|COMMENT|CRLF|brackets)
 
-  brackets ::= (L_ROUND_BRACKET ? R_ROUND_BRACKET) | (L_ANGLE_BRACKET ? R_ANGLE_BRACKET)
+property ::= (KEY? SEPARATOR VALUE?) | KEY
+
+brackets ::= (L_ROUND_BRACKET ? R_ROUND_BRACKET)
+  | (L_ANGLE_BRACKET ? R_ANGLE_BRACKET)
+  | (L_SQUARE_BRACKET ? R_SQUARE_BRACKET)
+  | (L_SWIRL_BRACKET ? R_SWIRL_BRACKET)

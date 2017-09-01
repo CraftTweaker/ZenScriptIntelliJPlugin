@@ -40,13 +40,18 @@ public class ZsParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (L_ROUND_BRACKET ? R_ROUND_BRACKET) | (L_ANGLE_BRACKET ? R_ANGLE_BRACKET)
+  // (L_ROUND_BRACKET ? R_ROUND_BRACKET)
+  //   | (L_ANGLE_BRACKET ? R_ANGLE_BRACKET)
+  //   | (L_SQUARE_BRACKET ? R_SQUARE_BRACKET)
+  //   | (L_SWIRL_BRACKET ? R_SWIRL_BRACKET)
   public static boolean brackets(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "brackets")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, BRACKETS, "<brackets>");
     r = brackets_0(b, l + 1);
     if (!r) r = brackets_1(b, l + 1);
+    if (!r) r = brackets_2(b, l + 1);
+    if (!r) r = brackets_3(b, l + 1);
     exit_section_(b, l, m, r, false, null);
     return r;
   }
@@ -84,6 +89,42 @@ public class ZsParser implements PsiParser, LightPsiParser {
   private static boolean brackets_1_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "brackets_1_0")) return false;
     consumeToken(b, L_ANGLE_BRACKET);
+    return true;
+  }
+
+  // L_SQUARE_BRACKET ? R_SQUARE_BRACKET
+  private static boolean brackets_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "brackets_2")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = brackets_2_0(b, l + 1);
+    r = r && consumeToken(b, R_SQUARE_BRACKET);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // L_SQUARE_BRACKET ?
+  private static boolean brackets_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "brackets_2_0")) return false;
+    consumeToken(b, L_SQUARE_BRACKET);
+    return true;
+  }
+
+  // L_SWIRL_BRACKET ? R_SWIRL_BRACKET
+  private static boolean brackets_3(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "brackets_3")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = brackets_3_0(b, l + 1);
+    r = r && consumeToken(b, R_SWIRL_BRACKET);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // L_SWIRL_BRACKET ?
+  private static boolean brackets_3_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "brackets_3_0")) return false;
+    consumeToken(b, L_SWIRL_BRACKET);
     return true;
   }
 

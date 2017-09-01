@@ -5,9 +5,10 @@ package de.bloodworkxgaming.zenscript.plugin.zsLanguage.parsing;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import com.intellij.psi.TokenType;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes;
+import com.intellij.psi.TokenType;
 
+import static de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes.*;
 
 // suppress various warnings/inspections for the generated class
 @SuppressWarnings ({"FieldCanBeLocal", "UnusedDeclaration", "UnusedAssignment", "AccessStaticViaInstance", "MismatchedReadAndWriteOfArray", "WeakerAccess", "SameParameterValue", "CanBeFinal", "SameReturnValue", "RedundantThrows", "ConstantConditions"})
@@ -69,8 +70,8 @@ final class _ZsLexer implements FlexLexer {
 
   /* The ZZ_CMAP_A table has 320 entries */
   static final char ZZ_CMAP_A[] = zzUnpackCMap(
-    "\11\0\1\4\1\2\1\1\1\5\1\3\22\0\1\7\16\0\1\10\12\0\1\11\2\0\1\11\36\0\1\6\50"+
-    "\0\1\1\242\0\2\1\26\0");
+    "\11\0\1\4\1\2\1\1\1\5\1\3\22\0\1\7\1\0\1\12\14\0\1\10\12\0\1\11\2\0\1\11\36"+
+    "\0\1\6\50\0\1\1\242\0\2\1\26\0");
 
   /** 
    * Translates DFA states to action switch labels.
@@ -78,12 +79,12 @@ final class _ZsLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\3\0\2\1\1\2\1\3\1\1\1\4\1\3\2\5"+
-    "\2\6\1\3\1\6\1\0\1\7\1\0\1\2\2\5"+
-    "\2\7";
+    "\3\0\2\1\1\2\1\3\1\1\1\4\1\5\1\3"+
+    "\2\6\2\7\1\3\1\7\1\0\1\10\1\0\1\2"+
+    "\2\6\2\10";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[24];
+    int [] result = new int[25];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -108,12 +109,13 @@ final class _ZsLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\12\0\24\0\36\0\50\0\62\0\74\0\106"+
-    "\0\120\0\120\0\132\0\144\0\62\0\156\0\170\0\202"+
-    "\0\74\0\214\0\170\0\144\0\226\0\240\0\252\0\264";
+    "\0\0\0\13\0\26\0\41\0\54\0\67\0\102\0\115"+
+    "\0\130\0\41\0\130\0\143\0\156\0\67\0\171\0\204"+
+    "\0\217\0\102\0\232\0\204\0\156\0\245\0\260\0\273"+
+    "\0\306";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[24];
+    int [] result = new int[25];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -137,22 +139,23 @@ final class _ZsLexer implements FlexLexer {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\4\1\5\1\6\1\5\2\6\1\7\1\6\1\10"+
-    "\1\11\1\12\5\6\1\12\1\6\2\12\1\13\1\14"+
-    "\1\15\1\14\1\16\1\15\1\17\1\20\2\13\2\4"+
-    "\1\0\1\4\2\0\1\21\1\0\1\4\1\0\1\4"+
-    "\1\5\1\6\1\5\2\6\1\21\1\6\1\4\2\0"+
-    "\5\6\1\0\1\6\11\0\1\4\2\0\2\4\1\0"+
-    "\1\4\2\0\1\21\1\0\1\22\13\0\2\13\1\0"+
-    "\2\13\1\0\1\23\4\13\1\24\1\6\2\24\1\6"+
-    "\1\23\1\24\3\13\1\25\1\20\1\25\1\16\1\20"+
-    "\1\23\1\16\5\13\1\26\6\13\1\0\1\6\1\20"+
-    "\1\6\2\20\1\0\1\20\2\0\2\22\1\0\1\4"+
-    "\2\27\1\30\1\27\1\22\1\27\1\13\1\25\1\6"+
-    "\2\25\1\6\1\23\1\25\7\13\1\0\1\23\3\13"+
-    "\2\27\2\0\10\27\2\0\3\27\1\22\2\27";
+    "\1\11\1\12\1\13\5\6\1\13\1\6\3\13\1\14"+
+    "\1\15\1\16\1\15\1\17\1\16\1\20\1\21\3\14"+
+    "\2\4\1\0\1\4\2\0\1\22\1\0\1\4\1\0"+
+    "\2\4\1\5\1\6\1\5\2\6\1\22\1\6\1\4"+
+    "\1\0\1\4\1\0\5\6\1\0\1\6\12\0\1\4"+
+    "\3\0\2\4\1\0\1\4\2\0\1\22\1\0\1\23"+
+    "\1\0\1\4\13\0\2\14\1\0\2\14\1\0\1\24"+
+    "\5\14\1\25\1\6\2\25\1\6\1\24\1\25\4\14"+
+    "\1\26\1\21\1\26\1\17\1\21\1\24\1\17\6\14"+
+    "\1\27\7\14\1\0\1\6\1\21\1\6\2\21\1\0"+
+    "\1\21\3\0\2\23\1\0\1\4\2\30\1\31\1\30"+
+    "\1\23\1\30\1\23\1\14\1\26\1\6\2\26\1\6"+
+    "\1\24\1\26\10\14\1\0\1\24\4\14\2\30\2\0"+
+    "\11\30\2\0\3\30\1\23\3\30";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[190];
+    int [] result = new int[209];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -190,10 +193,11 @@ final class _ZsLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\3\0\5\1\2\11\6\1\1\0\1\1\1\0\5\1";
+    "\3\0\5\1\1\11\1\1\1\11\6\1\1\0\1\1"+
+    "\1\0\5\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[24];
+    int [] result = new int[25];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -251,11 +255,6 @@ final class _ZsLexer implements FlexLexer {
   /* user code: */
     public _ZsLexer() {
         this(null);
-  }
-
-  public void goTo(int offset) {
-    zzCurrentPos = zzMarkedPos = zzStartRead = offset;
-    zzAtEOF = false;
   }
 
 
@@ -519,31 +518,35 @@ final class _ZsLexer implements FlexLexer {
           case 1: 
             { yybegin(YYINITIAL); return ZsTypes.KEY;
             }
-          case 8: break;
+          case 9: break;
           case 2: 
             { yybegin(YYINITIAL); return TokenType.WHITE_SPACE;
             }
-          case 9: break;
-          case 3: 
-            { return TokenType.BAD_CHARACTER;
-            }
           case 10: break;
+          case 3: 
+            { return BAD_CHARACTER;
+            }
+          case 11: break;
           case 4: 
             { yybegin(WAITING_VALUE); return ZsTypes.SEPARATOR;
             }
-          case 11: break;
-          case 5: 
-            { yybegin(YYINITIAL); return ZsTypes.VALUE;
-            }
           case 12: break;
-          case 6: 
-            { yybegin(WAITING_VALUE); return TokenType.WHITE_SPACE;
+          case 5: 
+            { string.setLength(0); yybegin(STRING);
             }
           case 13: break;
-          case 7: 
-            { yybegin(YYINITIAL); return ZsTypes.COMMENT;
+          case 6: 
+            { yybegin(YYINITIAL); return ZsTypes.VALUE;
             }
           case 14: break;
+          case 7: 
+            { yybegin(WAITING_VALUE); return TokenType.WHITE_SPACE;
+            }
+          case 15: break;
+          case 8: 
+            { yybegin(YYINITIAL); return ZsTypes.COMMENT;
+            }
+          case 16: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

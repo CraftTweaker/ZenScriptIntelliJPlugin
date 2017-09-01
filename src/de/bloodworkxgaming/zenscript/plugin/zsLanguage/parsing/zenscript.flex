@@ -6,6 +6,7 @@ import com.intellij.psi.tree.IElementType;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes;
 import com.intellij.psi.TokenType;
 
+import static de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes.*;
 
 // suppress various warnings/inspections for the generated class
 @SuppressWarnings ({"FieldCanBeLocal", "UnusedDeclaration", "UnusedAssignment", "AccessStaticViaInstance", "MismatchedReadAndWriteOfArray", "WeakerAccess", "SameParameterValue", "CanBeFinal", "SameReturnValue", "RedundantThrows", "ConstantConditions"})
@@ -25,11 +26,6 @@ import com.intellij.psi.TokenType;
 %{
     public _ZsLexer() {
         this(null);
-  }
-
-  public void goTo(int offset) {
-    zzCurrentPos = zzMarkedPos = zzStartRead = offset;
-    zzAtEOF = false;
   }
 %}
 
@@ -52,7 +48,6 @@ C_STYLE_COMMENT=("/*"[^"*"]{COMMENT_TAIL})|"/*"
 DOC_COMMENT="/*""*"+("/"|([^"/""*"]{COMMENT_TAIL}))?
 COMMENT_TAIL=([^"*"]*("*"+[^"*""/"])?)*("*"+"/")?
 END_OF_LINE_COMMENT="/""/"[^\r\n]*
-
 
 
 %state mu
@@ -82,7 +77,7 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
 /*<YYINITIAL> "boolean"            { return ZsTypes_old.BOOLEAN; }
 <YYINITIAL> "break"              { return ZsTypes_old.BREAK; } */
 
-/*<YYINITIAL> {*/
+<YYINITIAL> {
   /* identifiers */ 
   /*{Identifier}                   { return ZsTypes_old.IDENTIFIER; }*/
  
@@ -100,30 +95,31 @@ DecIntegerLiteral = 0 | [1-9][0-9]*
   "="                            { return ZsTypes_old.EQ; }
   "=="                           { return ZsTypes_old.EQEQ; }
   "+"                            { return ZsTypes_old.PLUS; }
-  
-  "("                            { return ZsTypes_old.L_ROUND_BRACKET; }
-  ")"                            { return ZsTypes_old.R_ROUND_BRACKET; }
-  "<"                            { return ZsTypes_old.L_ANGLE_BRACKET; }
-  ">"                            { return ZsTypes_old.R_ANGLE_BRACKET; }
-  "["                            { return ZsTypes_old.L_SQUARE_BRACKET; }
-  "]"                            { return ZsTypes_old.R_SQUARE_BRACKET; }
-  "{"                            { return ZsTypes_old.L_SWIRL_BRACKET; }
-  "}"                            { return ZsTypes_old.R_SWIRL_BRACKET; } */
+  */
+    \"  { string.setLength(0); yybegin(STRING); }
 
-/*}*/
+    {END_OF_LINE_COMMENT}                       { yybegin(YYINITIAL); return ZsTypes.COMMENT; }
+    {KEY_CHARACTER}+                            { yybegin(YYINITIAL); return ZsTypes.KEY; }
+    {SEPARATOR}                                 { yybegin(WAITING_VALUE); return ZsTypes.SEPARATOR; }
 
-<YYINITIAL> {END_OF_LINE_COMMENT}                           { yybegin(YYINITIAL); return ZsTypes.COMMENT; }
 
-<YYINITIAL> {KEY_CHARACTER}+                                { yybegin(YYINITIAL); return ZsTypes.KEY; }
+    "("                                         { yybegin(YYINITIAL); return L_ROUND_BRACKET; }
+    ")"                                         { yybegin(YYINITIAL); return R_ROUND_BRACKET; }
+    "<"                                         { yybegin(YYINITIAL); return L_ANGLE_BRACKET; }
+    ">"                                         { yybegin(YYINITIAL); return R_ANGLE_BRACKET; }
+    "["                                         { yybegin(YYINITIAL); return L_SQUARE_BRACKET; }
+    "]"                                         { yybegin(YYINITIAL); return R_SQUARE_BRACKET; }
+    "{"                                         { yybegin(YYINITIAL); return L_SWIRL_BRACKET; }
+    "}"                                         { yybegin(YYINITIAL); return R_SWIRL_BRACKET; }
+}
 
-<YYINITIAL> {SEPARATOR}                                     { yybegin(WAITING_VALUE); return ZsTypes.SEPARATOR; }
+<WAITING_VALUE> {
+    {CRLF}({CRLF}|{WHITE_SPACE})+               { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
+    {WHITE_SPACE}+                              { yybegin(WAITING_VALUE); return TokenType.WHITE_SPACE; }
+    {FIRST_VALUE_CHARACTER}{VALUE_CHARACTER}*   { yybegin(YYINITIAL); return ZsTypes.VALUE; }
+}
 
-<WAITING_VALUE> {CRLF}({CRLF}|{WHITE_SPACE})+               { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
+({CRLF}|{WHITE_SPACE})+                         { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
 
-<WAITING_VALUE> {WHITE_SPACE}+                              { yybegin(WAITING_VALUE); return TokenType.WHITE_SPACE; }
 
-<WAITING_VALUE> {FIRST_VALUE_CHARACTER}{VALUE_CHARACTER}*   { yybegin(YYINITIAL); return ZsTypes.VALUE; }
-
-({CRLF}|{WHITE_SPACE})+                                     { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
-
-.                                                           { return TokenType.BAD_CHARACTER; }
+[^] { return BAD_CHARACTER; }
