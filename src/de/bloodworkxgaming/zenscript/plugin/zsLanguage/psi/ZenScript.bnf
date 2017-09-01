@@ -1,0 +1,19 @@
+{
+  parserClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.parsing.SimpleParser"
+
+  extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
+
+  psiClassPrefix="Zs"
+  psiImplClassSuffix="Impl"
+  psiPackage="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi"
+  psiImplPackage="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl"
+
+  elementTypeHolderClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.formatter.ZsTypes"
+  elementTypeClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsElementType"
+  tokenTypeClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTokenType"
+}
+  zsFile ::= item_*
+
+  private item_ ::= (property|COMMENT|CRLF)
+
+  property ::= (KEY? SEPARATOR VALUE?) | KEY

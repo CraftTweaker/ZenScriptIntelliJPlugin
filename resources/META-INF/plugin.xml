@@ -1,0 +1,45 @@
+<idea-plugin>
+    <id>de.bloodworkxgaming.zenscript.plugin</id>
+    <name>ZenScript Development Plugin</name>
+    <version>1.0</version>
+    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">BloodWorkXGaming</vendor>
+
+    <description><![CDATA[
+      Enter short description for your plugin here.<br>
+      <em>most HTML tags may be used</em>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>
+    ]]>
+    </change-notes>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/build_number_ranges.html for description -->
+    <idea-version since-build="145.0"/>
+
+    <!-- please see http://www.jetbrains.org/intellij/sdk/docs/basics/getting_started/plugin_compatibility.html
+         on how to target different products -->
+    <!-- uncomment to enable plugin in all products
+    <depends>com.intellij.modules.lang</depends>
+    -->
+
+    <extensions defaultExtensionNs="com.intellij">
+        <!-- Add your extensions here -->
+        <fileTypeFactory implementation="de.bloodworkxgaming.zenscript.plugin.zsLanguage.ZsFileTypeFactory"/>
+
+        <lang.braceMatcher implementationClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.formatter.ZsBraceMatcher" language="ZENSCRIPT"/>
+        <lang.commenter language="ZENSCRIPT" implementationClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.formatter.ZsCommenter"/>
+        <lang.parserDefinition language="ZENSCRIPT" implementationClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.parsing.ZsParserDefinition"/>
+
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+        <action id="de.bloodworkxgaming.zenscript.plugin.NewZSAction"
+                class="de.bloodworkxgaming.zenscript.plugin.NewZSAction" text="ZenScript File Creator">
+            <add-to-group group-id="FileMenu" anchor="first"/>
+        </action>
+    </actions>
+
+</idea-plugin>
