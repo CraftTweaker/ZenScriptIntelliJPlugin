@@ -118,67 +118,112 @@ public class ZsParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // IDENTIFIER DOT IDENTIFIER (L_ROUND_BRACKET R_ROUND_BRACKET | (L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET))
+  // [bracketHandler IDENTIFIER] (DOT IDENTIFIER)+ (L_ROUND_BRACKET R_ROUND_BRACKET | (L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET))
   public static boolean functionCall(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "functionCall")) return false;
-    if (!nextTokenIs(b, IDENTIFIER)) return false;
+    if (!nextTokenIs(b, "<function call>", DOT, L_ANGLE_BRACKET)) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, FUNCTION_CALL, "<function call>");
+    r = functionCall_0(b, l + 1);
+    r = r && functionCall_1(b, l + 1);
+    r = r && functionCall_2(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // [bracketHandler IDENTIFIER]
+  private static boolean functionCall_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionCall_0")) return false;
+    functionCall_0_0(b, l + 1);
+    return true;
+  }
+
+  // bracketHandler IDENTIFIER
+  private static boolean functionCall_0_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionCall_0_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, IDENTIFIER, DOT, IDENTIFIER);
-    r = r && functionCall_3(b, l + 1);
-    exit_section_(b, m, FUNCTION_CALL, r);
+    r = bracketHandler(b, l + 1);
+    r = r && consumeToken(b, IDENTIFIER);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (DOT IDENTIFIER)+
+  private static boolean functionCall_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionCall_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = functionCall_1_0(b, l + 1);
+    int c = current_position_(b);
+    while (r) {
+      if (!functionCall_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "functionCall_1", c)) break;
+      c = current_position_(b);
+    }
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // DOT IDENTIFIER
+  private static boolean functionCall_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionCall_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, DOT, IDENTIFIER);
+    exit_section_(b, m, null, r);
     return r;
   }
 
   // L_ROUND_BRACKET R_ROUND_BRACKET | (L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET)
-  private static boolean functionCall_3(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "functionCall_3")) return false;
+  private static boolean functionCall_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionCall_2")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = parseTokens(b, 0, L_ROUND_BRACKET, R_ROUND_BRACKET);
-    if (!r) r = functionCall_3_1(b, l + 1);
+    if (!r) r = functionCall_2_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET
-  private static boolean functionCall_3_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "functionCall_3_1")) return false;
+  private static boolean functionCall_2_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionCall_2_1")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, L_ROUND_BRACKET);
-    r = r && functionCall_3_1_1(b, l + 1);
+    r = r && functionCall_2_1_1(b, l + 1);
     r = r && consumeToken(b, R_ROUND_BRACKET);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // validVariable (COMMA validVariable)*
-  private static boolean functionCall_3_1_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "functionCall_3_1_1")) return false;
+  private static boolean functionCall_2_1_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionCall_2_1_1")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = validVariable(b, l + 1);
-    r = r && functionCall_3_1_1_1(b, l + 1);
+    r = r && functionCall_2_1_1_1(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
 
   // (COMMA validVariable)*
-  private static boolean functionCall_3_1_1_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "functionCall_3_1_1_1")) return false;
+  private static boolean functionCall_2_1_1_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionCall_2_1_1_1")) return false;
     int c = current_position_(b);
     while (true) {
-      if (!functionCall_3_1_1_1_0(b, l + 1)) break;
-      if (!empty_element_parsed_guard_(b, "functionCall_3_1_1_1", c)) break;
+      if (!functionCall_2_1_1_1_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "functionCall_2_1_1_1", c)) break;
       c = current_position_(b);
     }
     return true;
   }
 
   // COMMA validVariable
-  private static boolean functionCall_3_1_1_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "functionCall_3_1_1_1_0")) return false;
+  private static boolean functionCall_2_1_1_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "functionCall_2_1_1_1_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = consumeToken(b, COMMA);

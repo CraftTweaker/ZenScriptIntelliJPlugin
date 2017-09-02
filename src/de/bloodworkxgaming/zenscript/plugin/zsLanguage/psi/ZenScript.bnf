@@ -102,6 +102,6 @@ number ::= DIGITS | FLOATING_POINT | DIGIT
 validVariable ::= bracketHandler | functionCall | IDENTIFIER | number | NULL
 
 assignStatement ::= (VAR | VAL)? IDENTIFIER EQUAL validVariable SEMICOLON
-functionCall ::= IDENTIFIER DOT IDENTIFIER (L_ROUND_BRACKET R_ROUND_BRACKET | (L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET))
+functionCall ::= (bracketHandler | IDENTIFIER) (DOT IDENTIFIER)+ (L_ROUND_BRACKET R_ROUND_BRACKET | (L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET))
 
 // property ::= (KEY? SEPARATOR VALUE?) | KEY

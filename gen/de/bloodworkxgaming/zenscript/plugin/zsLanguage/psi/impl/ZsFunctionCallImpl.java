@@ -27,6 +27,12 @@ public class ZsFunctionCallImpl extends ASTWrapperPsiElement implements ZsFuncti
   }
 
   @Override
+  @Nullable
+  public ZsBracketHandler getBracketHandler() {
+    return findChildByClass(ZsBracketHandler.class);
+  }
+
+  @Override
   @NotNull
   public List<ZsValidVariable> getValidVariableList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsValidVariable.class);
