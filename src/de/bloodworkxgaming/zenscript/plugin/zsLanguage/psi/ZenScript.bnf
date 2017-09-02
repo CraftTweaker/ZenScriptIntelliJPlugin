@@ -13,63 +13,95 @@
     tokenTypeClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTokenType"
 
     tokens = [
-        L_ROUND_BRACKET = "("
-        R_ROUND_BRACKET = ")"
-        L_ANGLE_BRACKET = "<"
-        R_ANGLE_BRACKET = ">"
-        L_SQUARE_BRACKET = "["
-        R_SQUARE_BRACKET = "]"
-        L_CURLY_BRACKET = "{"
-        R_CURLY_BRACKET = "}"
+        // characters
+        L_ROUND_BRACKET         = "("
+        R_ROUND_BRACKET         = ")"
+        L_ANGLE_BRACKET         = "<"
+        R_ANGLE_BRACKET         = ">"
+        L_SQUARE_BRACKET        = "["
+        R_SQUARE_BRACKET        = "]"
+        L_CURLY_BRACKET         = "{"
+        R_CURLY_BRACKET         = "}"
 
-        COMMA=','
-        COLON=':'
 
-        LINE_COMMENT='regexp://.*'
-        BLOCK_COMMENT='regexp:/\*([^*]|\*+[^*/])*(\*+/)?'
+        EQUAL           = "="
+        EXCL            = "!"
+        TILDE           = "~"
+        QUEST           = "?"
+        COLON           = ":"
+        PLUS            = "+"
+        MINUS           = "-"
+        ASTERISK        = "*"
+        DIV             = "/"
+        OR              = "|"
+        XOR             = "^"
+        PERC            = "%"
+        AT              = "@"
 
-        DOUBLE_QUOTED_STRING="regexp:\"([^\\\"\r\n]|\\[^\r\n])*\"?"
-        SINGLE_QUOTED_STRING="regexp:'([^\\\'\r\n]|\\[^\r\n])*'?"
+        SEMICOLON       = ";"
+        COMMA           = ","
+        DOT             = "."
 
-        NUMBER='regexp:-?(0|[1-9]\d*)(\.\d+)?([eE][+-]?\d*)?'
+        EQEQ            = "=="
+        NOT_EQUAL       = "!="
+        LESS_EQUAL      = "<="
+        GREATER_EQUAL   = ">="
 
-        ANY = "(?<![^\s])any(?![^\s;])"
+        LINE_COMMENT    = 'regexp://.*'
+        BLOCK_COMMENT   = 'regexp:/\*([^*]|\*+[^*/])*(\*+/)?'
 
-        BOOL = "(?<![^\s])bool(?![^\s;])"
-        BYTE = "(?<![^\s])byte(?![^\s;])"
-        SHORT = "(?<![^\s])short(?![^\s;])"
-        INT = "(?<![^\s])int(?![^\s;])"
-        LONG = "(?<![^\s])long(?![^\s;])"
-        FLOAT = "(?<![^\s])float(?![^\s;])"
-        DOUBLE = "(?<![^\s])double(?![^\s;])"
-        STRING = "(?<![^\s])string(?![^\s;])"
+        DOUBLE_QUOTED_STRING = "regexp:\"([^\\\"\r\n]|\\[^\r\n])*\"?"
+        SINGLE_QUOTED_STRING = "regexp:'([^\\\'\r\n]|\\[^\r\n])*'?"
 
-        FUNCTION = "(?<![^\s])function(?![^\s;])"
-        IN = "(?<![^\s])in(?![^\s;])"
-        VOID = "(?<![^\s])void(?![^\s;])"
-        AS = "(?<![^\s])as(?![^\s;])"
-        VERSION = "(?<![^\s])version(?![^\s;])"
+        DIGIT           = "regexp:[0-9]"
+        DIGITS          = "regexp:-?{DIGIT}+"
+        FLOATING_POINT  = "regexp:{DIGITS}\.{DIGIT}+"
 
-        IF = "(?<![^\s])if(?![^\s;])"
-        ELSE = "(?<![^\s])else(?![^\s;])"
-        FOR = "(?<![^\s])for(?![^\s;])"
+        // types
+        ANY         = "any"
+        BOOL        = "bool"
+        BYTE        = "byte"
+        SHORT       = "short"
+        INT         = "int"
+        LONG        = "long"
+        FLOAT       = "float"
+        DOUBLE      = "double"
+        STRING      = "string"
 
-        RETURN = "(?<![^\s])return(?![^\s;])"
+        // control structure
+        FUNCTION    = "function"
+        IN          = "in"
+        VOID        = "void"
+        AS          = "as"
+        VERSION     = "version"
+        IF          = "if"
+        ELSE        = "else"
+        FOR         = "for"
+        RETURN      = "return"
+        IMPORT      = "import"
 
-        VAR = "(?<![^\s])var(?![^\s;])"
-        VAL = "(?<![^\s])val(?![^\s;])"
+        VAR         = "var"
+        VAL         = "val"
 
-        NULL = "(?<![^\s])null(?![^\s;])"
-        TRUE = "(?<![^\s])true(?![^\s;])"
-        FALSE = "(?<![^\s])false(?![^\s;])"
+        // constants
+        NULL        = "null"
+        TRUE        = "true"
+        FALSE       = "false"
 
-        IMPORT = "(?<![^\s])import(?![^\s;])"
-
+        EOL         = "regexp:\R"
+        IDENTIFIER  = "regexp:[:jletter:] [:jletterdigit:]*"
    ]
 }
 
 zsFile ::= item_*
 
-private item_ ::= (property|CRLF)
+private item_ ::= (bracketHandler | assignStatement | property | EOL | functionCall SEMICOLON )
+bracketHandler ::= L_ANGLE_BRACKET (IDENTIFIER | COLON)* R_ANGLE_BRACKET
 
-property ::= (KEY? SEPARATOR VALUE?) | KEY
+number ::= DIGITS | FLOATING_POINT | DIGIT
+validVariable ::= bracketHandler | functionCall | IDENTIFIER | number | NULL
+
+assignStatement ::= (VAR | VAL)? IDENTIFIER EQUAL validVariable SEMICOLON
+functionCall ::= IDENTIFIER DOT IDENTIFIER (L_ROUND_BRACKET R_ROUND_BRACKET | (L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET))
+
+// property ::= (KEY? SEPARATOR VALUE?) | KEY

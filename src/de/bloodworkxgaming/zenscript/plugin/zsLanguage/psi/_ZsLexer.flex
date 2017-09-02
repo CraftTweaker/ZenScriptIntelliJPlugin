@@ -29,58 +29,79 @@ LINE_COMMENT="//".*
 BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*(\*+"/")?
 DOUBLE_QUOTED_STRING=\"([^\\\"\r\n]|\\[^\r\n])*\"?
 SINGLE_QUOTED_STRING='([^\\'\r\n]|\\[^\r\n])*'?
-NUMBER=-?(0|[1-9][0-9]*)(\.[0-9]+)?([eE][+-]?[0-9]*)?
-
-KEYWORD_ANY = [\s;]any[\s;]
+DIGIT=[0-9]
+DIGITS=-?{DIGIT}+
+FLOATING_POINT={DIGITS}\.{DIGIT}+
+EOL=\R
+IDENTIFIER=[:jletter:] [:jletterdigit:]*
 
 %%
 <YYINITIAL> {
-  {WHITE_SPACE}                         { return WHITE_SPACE; }
+  {WHITE_SPACE}               { return WHITE_SPACE; }
 
-  "("                                   { return L_ROUND_BRACKET; }
-  ")"                                   { return R_ROUND_BRACKET; }
-  "<"                                   { return L_ANGLE_BRACKET; }
-  ">"                                   { return R_ANGLE_BRACKET; }
-  "["                                   { return L_SQUARE_BRACKET; }
-  "]"                                   { return R_SQUARE_BRACKET; }
-  "{"                                   { return L_CURLY_BRACKET; }
-  "}"                                   { return R_CURLY_BRACKET; }
-  ","                                   { return COMMA; }
-  ":"                                   { return COLON; }
-  {KEYWORD_ANY}                             { return ANY; }
-  "(?<![^\s])bool(?![^\s;])"                { return BOOL; }
-  "(?<![^\s])byte(?![^\s;])"                { return BYTE; }
-  "(?<![^\s])short(?![^\s;])"               { return SHORT; }
-  "(?<![^\s])int(?![^\s;])"                 { return INT; }
-  "(?<![^\s])long(?![^\s;])"                { return LONG; }
-  "(?<![^\s])float(?![^\s;])"               { return FLOAT; }
-  "(?<![^\s])double(?![^\s;])"              { return DOUBLE; }
-  "(?<![^\s])string(?![^\s;])"              { return STRING; }
-  "(?<![^\s])function(?![^\s;])"            { return FUNCTION; }
-  "(?<![^\s])in(?![^\s;])"                  { return IN; }
-  "(?<![^\s])void(?![^\s;])"                { return VOID; }
-  "(?<![^\s])as(?![^\s;])"                  { return AS; }
-  "(?<![^\s])version(?![^\s;])"             { return VERSION; }
-  "(?<![^\s])if(?![^\s;])"                  { return IF; }
-  "(?<![^\s])else(?![^\s;])"                { return ELSE; }
-  "(?<![^\s])for(?![^\s;])"                 { return FOR; }
-  "(?<![^\s])return(?![^\s;])"              { return RETURN; }
-  "(?<![^\s])var(?![^\s;])"                 { return VAR; }
-  "(?<![^\s])val(?![^\s;])"                 { return VAL; }
-  "(?<![^\s])null(?![^\s;])"                { return NULL; }
-  "(?<![^\s])true(?![^\s;])"                { return TRUE; }
-  "(?<![^\s])false(?![^\s;])"               { return FALSE; }
-  "(?<![^\s])import(?![^\s;])"              { return IMPORT; }
-  "CRLF"                                { return CRLF; }
-  "KEY"                                 { return KEY; }
-  "SEPARATOR"                           { return SEPARATOR; }
-  "VALUE"                               { return VALUE; }
+  "("                         { return L_ROUND_BRACKET; }
+  ")"                         { return R_ROUND_BRACKET; }
+  "<"                         { return L_ANGLE_BRACKET; }
+  ">"                         { return R_ANGLE_BRACKET; }
+  "["                         { return L_SQUARE_BRACKET; }
+  "]"                         { return R_SQUARE_BRACKET; }
+  "{"                         { return L_CURLY_BRACKET; }
+  "}"                         { return R_CURLY_BRACKET; }
+  "="                         { return EQUAL; }
+  "!"                         { return EXCL; }
+  "~"                         { return TILDE; }
+  "?"                         { return QUEST; }
+  ":"                         { return COLON; }
+  "+"                         { return PLUS; }
+  "-"                         { return MINUS; }
+  "*"                         { return ASTERISK; }
+  "/"                         { return DIV; }
+  "|"                         { return OR; }
+  "^"                         { return XOR; }
+  "%"                         { return PERC; }
+  "@"                         { return AT; }
+  ";"                         { return SEMICOLON; }
+  ","                         { return COMMA; }
+  "."                         { return DOT; }
+  "=="                        { return EQEQ; }
+  "!="                        { return NOT_EQUAL; }
+  "<="                        { return LESS_EQUAL; }
+  ">="                        { return GREATER_EQUAL; }
+  "any"                       { return ANY; }
+  "bool"                      { return BOOL; }
+  "byte"                      { return BYTE; }
+  "short"                     { return SHORT; }
+  "int"                       { return INT; }
+  "long"                      { return LONG; }
+  "float"                     { return FLOAT; }
+  "double"                    { return DOUBLE; }
+  "string"                    { return STRING; }
+  "function"                  { return FUNCTION; }
+  "in"                        { return IN; }
+  "void"                      { return VOID; }
+  "as"                        { return AS; }
+  "version"                   { return VERSION; }
+  "if"                        { return IF; }
+  "else"                      { return ELSE; }
+  "for"                       { return FOR; }
+  "return"                    { return RETURN; }
+  "import"                    { return IMPORT; }
+  "var"                       { return VAR; }
+  "val"                       { return VAL; }
+  "null"                      { return NULL; }
+  "true"                      { return TRUE; }
+  "false"                     { return FALSE; }
+  "property"                  { return PROPERTY; }
 
-  {LINE_COMMENT}                        { return LINE_COMMENT; }
-  {BLOCK_COMMENT}                       { return BLOCK_COMMENT; }
-  {DOUBLE_QUOTED_STRING}                { return DOUBLE_QUOTED_STRING; }
-  {SINGLE_QUOTED_STRING}                { return SINGLE_QUOTED_STRING; }
-  {NUMBER}                              { return NUMBER; }
+  {LINE_COMMENT}              { return LINE_COMMENT; }
+  {BLOCK_COMMENT}             { return BLOCK_COMMENT; }
+  {DOUBLE_QUOTED_STRING}      { return DOUBLE_QUOTED_STRING; }
+  {SINGLE_QUOTED_STRING}      { return SINGLE_QUOTED_STRING; }
+  {DIGIT}                     { return DIGIT; }
+  {DIGITS}                    { return DIGITS; }
+  {FLOATING_POINT}            { return FLOATING_POINT; }
+  {EOL}                       { return EOL; }
+  {IDENTIFIER}                { return IDENTIFIER; }
 
 }
 

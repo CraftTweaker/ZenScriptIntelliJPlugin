@@ -39,17 +39,17 @@ public class ZsSyntaxHighlighter extends SyntaxHighlighterBase {
     @NotNull
     @Override
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
-        if (tokenType.equals(ZsTypes.SEPARATOR)) {
+        /*if (tokenType.equals(ZsTypes.SEPARATOR)) {
             return SEPARATOR_KEYS;
-        } else if (isKeyword(tokenType)) {
+        } else*/ if (isKeyword(tokenType)) {
             return KEYWORD_KEYS;
-        } else if (tokenType.equals(ZsTypes.VALUE)) {
+        } else /*if (tokenType.equals(ZsTypes.VALUE)) {
             return VALUE_KEYS;
-        } else if (tokenType.equals(ZsTypes.LINE_COMMENT) || tokenType.equals(ZsTypes.BLOCK_COMMENT)) {
+        } else */if (tokenType.equals(ZsTypes.LINE_COMMENT) || tokenType.equals(ZsTypes.BLOCK_COMMENT)) {
             return COMMENT_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHAR_KEYS;
-        } else if (tokenType.equals(ZsTypes.NUMBER)){
+        } else if (tokenType.equals(ZsTypes.DIGIT) || tokenType.equals(ZsTypes.DIGITS) || tokenType.equals(ZsTypes.FLOATING_POINT)){
             return NUMBER_KEYS;
         } else {
             return EMPTY_KEYS;
