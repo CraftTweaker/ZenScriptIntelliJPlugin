@@ -11,14 +11,14 @@ import static de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.*;
 
-public class ZsParameterVariableImpl extends ASTWrapperPsiElement implements ZsParameterVariable {
+public class ZsReturnStatementImpl extends ASTWrapperPsiElement implements ZsReturnStatement {
 
-  public ZsParameterVariableImpl(ASTNode node) {
+  public ZsReturnStatementImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ZsVisitor visitor) {
-    visitor.visitParameterVariable(this);
+    visitor.visitReturnStatement(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,15 +27,9 @@ public class ZsParameterVariableImpl extends ASTWrapperPsiElement implements ZsP
   }
 
   @Override
-  @Nullable
-  public ZsClassName getClassName() {
-    return findChildByClass(ZsClassName.class);
-  }
-
-  @Override
   @NotNull
-  public ZsVariable getVariable() {
-    return findNotNullChildByClass(ZsVariable.class);
+  public ZsValidVariable getValidVariable() {
+    return findNotNullChildByClass(ZsValidVariable.class);
   }
 
 }

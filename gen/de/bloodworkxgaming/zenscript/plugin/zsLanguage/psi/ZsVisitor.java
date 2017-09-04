@@ -27,6 +27,10 @@ public class ZsVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitClassName(@NotNull ZsClassName o) {
+    visitPsiElement(o);
+  }
+
   public void visitCondition(@NotNull ZsCondition o) {
     visitPsiElement(o);
   }
@@ -36,6 +40,10 @@ public class ZsVisitor extends PsiElementVisitor {
   }
 
   public void visitFunctionCall(@NotNull ZsFunctionCall o) {
+    visitPsiElement(o);
+  }
+
+  public void visitFunctionBody(@NotNull ZsFunctionBody o) {
     visitPsiElement(o);
   }
 
@@ -55,6 +63,10 @@ public class ZsVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitLambdaFunctionDeclaration(@NotNull ZsLambdaFunctionDeclaration o) {
+    visitPsiElement(o);
+  }
+
   public void visitNumber(@NotNull ZsNumber o) {
     visitPsiElement(o);
   }
@@ -64,6 +76,10 @@ public class ZsVisitor extends PsiElementVisitor {
   }
 
   public void visitParameterVariable(@NotNull ZsParameterVariable o) {
+    visitPsiElement(o);
+  }
+
+  public void visitReturnStatement(@NotNull ZsReturnStatement o) {
     visitPsiElement(o);
   }
 

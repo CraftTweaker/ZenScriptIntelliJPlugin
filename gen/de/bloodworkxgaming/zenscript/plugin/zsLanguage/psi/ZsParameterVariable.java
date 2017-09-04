@@ -7,10 +7,10 @@ import com.intellij.psi.PsiElement;
 
 public interface ZsParameterVariable extends PsiElement {
 
+  @Nullable
+  ZsClassName getClassName();
+
   @NotNull
   ZsVariable getVariable();
-
-  @Nullable
-  PsiElement getIdentifier();
 
 }

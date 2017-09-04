@@ -28,14 +28,20 @@ public class ZsFunctionDeclarationImpl extends ASTWrapperPsiElement implements Z
 
   @Override
   @Nullable
-  public ZsParameterList getParameterList() {
-    return findChildByClass(ZsParameterList.class);
+  public ZsClassName getClassName() {
+    return findChildByClass(ZsClassName.class);
   }
 
   @Override
   @NotNull
-  public ZsStatementBody getStatementBody() {
-    return findNotNullChildByClass(ZsStatementBody.class);
+  public ZsFunctionBody getFunctionBody() {
+    return findNotNullChildByClass(ZsFunctionBody.class);
+  }
+
+  @Override
+  @Nullable
+  public ZsParameterList getParameterList() {
+    return findChildByClass(ZsParameterList.class);
   }
 
   @Override

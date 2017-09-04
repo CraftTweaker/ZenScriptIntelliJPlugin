@@ -23,6 +23,9 @@ public interface ZsValidVariable extends PsiElement {
   ZsFunctionCall getFunctionCall();
 
   @Nullable
+  ZsLambdaFunctionDeclaration getLambdaFunctionDeclaration();
+
+  @Nullable
   ZsNumber getNumber();
 
   @Nullable

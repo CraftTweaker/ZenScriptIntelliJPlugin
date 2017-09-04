@@ -58,6 +58,12 @@ public class ZsValidVariableImpl extends ASTWrapperPsiElement implements ZsValid
 
   @Override
   @Nullable
+  public ZsLambdaFunctionDeclaration getLambdaFunctionDeclaration() {
+    return findChildByClass(ZsLambdaFunctionDeclaration.class);
+  }
+
+  @Override
+  @Nullable
   public ZsNumber getNumber() {
     return findChildByClass(ZsNumber.class);
   }

@@ -38,4 +38,16 @@ public class ZsCastExpressionImpl extends ASTWrapperPsiElement implements ZsCast
     return findChildByClass(ZsBracketHandler.class);
   }
 
+  @Override
+  @NotNull
+  public ZsClassName getClassName() {
+    return findNotNullChildByClass(ZsClassName.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getIdentifier() {
+    return findChildByType(IDENTIFIER);
+  }
+
 }

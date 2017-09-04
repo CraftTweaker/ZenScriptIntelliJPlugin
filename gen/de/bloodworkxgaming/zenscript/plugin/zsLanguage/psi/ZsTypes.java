@@ -13,16 +13,20 @@ public interface ZsTypes {
   IElementType ASSIGN_STATEMENT = new ZsElementType("ASSIGN_STATEMENT");
   IElementType BRACKET_HANDLER = new ZsElementType("BRACKET_HANDLER");
   IElementType CAST_EXPRESSION = new ZsElementType("CAST_EXPRESSION");
+  IElementType CLASS_NAME = new ZsElementType("CLASS_NAME");
   IElementType CONDITION = new ZsElementType("CONDITION");
   IElementType FOR_LOOP = new ZsElementType("FOR_LOOP");
+  IElementType FUNCTION_BODY = new ZsElementType("FUNCTION_BODY");
   IElementType FUNCTION_CALL = new ZsElementType("FUNCTION_CALL");
   IElementType FUNCTION_DECLARATION = new ZsElementType("FUNCTION_DECLARATION");
   IElementType IF_STATEMENT = new ZsElementType("IF_STATEMENT");
   IElementType IMPORT_LIST = new ZsElementType("IMPORT_LIST");
   IElementType IMPORT_STATEMENT = new ZsElementType("IMPORT_STATEMENT");
+  IElementType LAMBDA_FUNCTION_DECLARATION = new ZsElementType("LAMBDA_FUNCTION_DECLARATION");
   IElementType NUMBER = new ZsElementType("NUMBER");
   IElementType PARAMETER_LIST = new ZsElementType("PARAMETER_LIST");
   IElementType PARAMETER_VARIABLE = new ZsElementType("PARAMETER_VARIABLE");
+  IElementType RETURN_STATEMENT = new ZsElementType("RETURN_STATEMENT");
   IElementType STATEMENT = new ZsElementType("STATEMENT");
   IElementType STATEMENT_BODY = new ZsElementType("STATEMENT_BODY");
   IElementType VALID_CALLABLE = new ZsElementType("VALID_CALLABLE");
@@ -111,11 +115,17 @@ public interface ZsTypes {
       else if (type == CAST_EXPRESSION) {
         return new ZsCastExpressionImpl(node);
       }
+      else if (type == CLASS_NAME) {
+        return new ZsClassNameImpl(node);
+      }
       else if (type == CONDITION) {
         return new ZsConditionImpl(node);
       }
       else if (type == FOR_LOOP) {
         return new ZsForLoopImpl(node);
+      }
+      else if (type == FUNCTION_BODY) {
+        return new ZsFunctionBodyImpl(node);
       }
       else if (type == FUNCTION_CALL) {
         return new ZsFunctionCallImpl(node);
@@ -132,6 +142,9 @@ public interface ZsTypes {
       else if (type == IMPORT_STATEMENT) {
         return new ZsImportStatementImpl(node);
       }
+      else if (type == LAMBDA_FUNCTION_DECLARATION) {
+        return new ZsLambdaFunctionDeclarationImpl(node);
+      }
       else if (type == NUMBER) {
         return new ZsNumberImpl(node);
       }
@@ -140,6 +153,9 @@ public interface ZsTypes {
       }
       else if (type == PARAMETER_VARIABLE) {
         return new ZsParameterVariableImpl(node);
+      }
+      else if (type == RETURN_STATEMENT) {
+        return new ZsReturnStatementImpl(node);
       }
       else if (type == STATEMENT) {
         return new ZsStatementImpl(node);

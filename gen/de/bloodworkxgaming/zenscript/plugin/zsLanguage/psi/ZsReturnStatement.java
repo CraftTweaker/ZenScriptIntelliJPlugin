@@ -5,18 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ZsFunctionDeclaration extends PsiElement {
-
-  @Nullable
-  ZsClassName getClassName();
+public interface ZsReturnStatement extends PsiElement {
 
   @NotNull
-  ZsFunctionBody getFunctionBody();
-
-  @Nullable
-  ZsParameterList getParameterList();
-
-  @NotNull
-  PsiElement getIdentifier();
+  ZsValidVariable getValidVariable();
 
 }

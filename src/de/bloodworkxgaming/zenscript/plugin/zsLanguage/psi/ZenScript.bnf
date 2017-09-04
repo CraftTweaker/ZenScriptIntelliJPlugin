@@ -116,10 +116,11 @@ bracketHandler ::= L_ANGLE_BRACKET (IDENTIFIER | COLON | DIGITS | ASTERISK)* R_A
 variable ::= IDENTIFIER {methods= [getName getNameIdentifier setName]
                          implements="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsNamedElement"
                          mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"}
+class_name ::= IDENTIFIER (L_SQUARE_BRACKET R_SQUARE_BRACKET)*
 
 number ::= DIGITS | FLOATING_POINT
 
-validVariable ::= castExpression | (bracketHandler (ASTERISK DIGITS)?) | functionCall | variable | number | NULL | DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING | arrayDeclaration | arrayRead
+validVariable ::= lambda_function_declaration | castExpression | (bracketHandler (ASTERISK DIGITS)?) | functionCall | variable | number | NULL | DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING | arrayDeclaration | arrayRead
 validCallable ::= bracketHandler | variable | DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING | arrayRead
 
 assignStatement ::= (VAR | VAL)? variable EQUAL validVariable /*{mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
@@ -130,9 +131,10 @@ functionCall ::= validCallable (DOT IDENTIFIER)* (L_ROUND_BRACKET R_ROUND_BRACKE
 arrayDeclaration ::= L_SQUARE_BRACKET validVariable (COMMA validVariable)* R_SQUARE_BRACKET
 arrayRead ::= IDENTIFIER (DOT IDENTIFIER)* (L_SQUARE_BRACKET DIGITS R_SQUARE_BRACKET)+
 
-castExpression ::= (arrayDeclaration | IDENTIFIER | bracketHandler) AS IDENTIFIER (L_SQUARE_BRACKET R_SQUARE_BRACKET)*
+castExpression ::= (arrayDeclaration | IDENTIFIER | bracketHandler) AS class_name
 
 statement_body ::= L_CURLY_BRACKET statement* R_CURLY_BRACKET
+return_statement ::= RETURN validVariable SEMICOLON
 
 for_loop ::= FOR (((variable COMMA)? variable in variable) | (variable IN DIGITS ((DOT DOT) | TO) DIGITS)) statement_body
 
@@ -140,6 +142,10 @@ condition ::= validVariable (EQEQ | NOT_EQUAL | GREATER_EQUAL | LESS_EQUAL | L_A
 
 if_statement ::= IF L_ROUND_BRACKET condition ((OR | AND | XOR) condition)* R_ROUND_BRACKET statement_body (ELSE statement_body)?
 
-function_declaration ::= FUNCTION IDENTIFIER ((L_ROUND_BRACKET parameter_list R_ROUND_BRACKET) | (L_ROUND_BRACKET R_ROUND_BRACKET)) statement_body
+function_declaration ::= FUNCTION IDENTIFIER ((L_ROUND_BRACKET parameter_list R_ROUND_BRACKET) | (L_ROUND_BRACKET R_ROUND_BRACKET)) (AS class_name)? function_body
+lambda_function_declaration ::= FUNCTION ((L_ROUND_BRACKET parameter_list R_ROUND_BRACKET) | (L_ROUND_BRACKET R_ROUND_BRACKET)) (AS class_name)? function_body
+
 parameter_list ::= (parameter_variable COMMA)* parameter_variable
-parameter_variable ::= (variable (AS IDENTIFIER (L_SQUARE_BRACKET R_SQUARE_BRACKET)*)?)
+parameter_variable ::= (variable (AS class_name)?)
+function_body ::= L_CURLY_BRACKET statement* return_statement? R_CURLY_BRACKET
+

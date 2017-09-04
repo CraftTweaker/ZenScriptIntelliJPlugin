@@ -11,14 +11,14 @@ import static de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.*;
 
-public class ZsParameterVariableImpl extends ASTWrapperPsiElement implements ZsParameterVariable {
+public class ZsFunctionBodyImpl extends ASTWrapperPsiElement implements ZsFunctionBody {
 
-  public ZsParameterVariableImpl(ASTNode node) {
+  public ZsFunctionBodyImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ZsVisitor visitor) {
-    visitor.visitParameterVariable(this);
+    visitor.visitFunctionBody(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -28,14 +28,14 @@ public class ZsParameterVariableImpl extends ASTWrapperPsiElement implements ZsP
 
   @Override
   @Nullable
-  public ZsClassName getClassName() {
-    return findChildByClass(ZsClassName.class);
+  public ZsReturnStatement getReturnStatement() {
+    return findChildByClass(ZsReturnStatement.class);
   }
 
   @Override
   @NotNull
-  public ZsVariable getVariable() {
-    return findNotNullChildByClass(ZsVariable.class);
+  public List<ZsStatement> getStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsStatement.class);
   }
 
 }

@@ -5,18 +5,9 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ZsCastExpression extends PsiElement {
-
-  @Nullable
-  ZsArrayDeclaration getArrayDeclaration();
-
-  @Nullable
-  ZsBracketHandler getBracketHandler();
+public interface ZsClassName extends PsiElement {
 
   @NotNull
-  ZsClassName getClassName();
-
-  @Nullable
   PsiElement getIdentifier();
 
 }
