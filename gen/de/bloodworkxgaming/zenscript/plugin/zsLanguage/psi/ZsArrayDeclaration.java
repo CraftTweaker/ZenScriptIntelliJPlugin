@@ -5,10 +5,7 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ZsFunctionCall extends PsiElement {
-
-  @NotNull
-  ZsValidCallable getValidCallable();
+public interface ZsArrayDeclaration extends PsiElement {
 
   @NotNull
   List<ZsValidVariable> getValidVariableList();

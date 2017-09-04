@@ -12,7 +12,7 @@ import com.intellij.psi.TokenType;
 import com.intellij.psi.tree.IFileElementType;
 import com.intellij.psi.tree.TokenSet;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.ZsLanguage;
-import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsPsiFile;
+import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsFile;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes;
 import org.jetbrains.annotations.NotNull;
 
@@ -64,7 +64,7 @@ public class ZsParserDefinition implements ParserDefinition {
 
     @Override
     public PsiFile createFile(FileViewProvider viewProvider) {
-        return new ZsPsiFile(viewProvider);
+        return new ZsFile(viewProvider);
     }
 
     @Override

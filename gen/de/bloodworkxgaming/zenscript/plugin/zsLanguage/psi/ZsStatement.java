@@ -5,12 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ZsFunctionCall extends PsiElement {
+public interface ZsStatement extends PsiElement {
 
-  @NotNull
-  ZsValidCallable getValidCallable();
+  @Nullable
+  ZsAssignStatement getAssignStatement();
 
-  @NotNull
-  List<ZsValidVariable> getValidVariableList();
+  @Nullable
+  ZsFunctionCall getFunctionCall();
+
+  @Nullable
+  PsiElement getEol();
 
 }

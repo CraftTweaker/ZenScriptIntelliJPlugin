@@ -8,17 +8,16 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
 import com.intellij.psi.util.PsiTreeUtil;
 import static de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes.*;
-import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.*;
 
-public class ZsNumberImpl extends ASTWrapperPsiElement implements ZsNumber {
+public class ZsVariableImpl extends ZsNamedElementImpl implements ZsVariable {
 
-  public ZsNumberImpl(ASTNode node) {
+  public ZsVariableImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ZsVisitor visitor) {
-    visitor.visitNumber(this);
+    visitor.visitVariable(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,15 +26,21 @@ public class ZsNumberImpl extends ASTWrapperPsiElement implements ZsNumber {
   }
 
   @Override
-  @Nullable
-  public PsiElement getDigits() {
-    return findChildByType(DIGITS);
+  @NotNull
+  public PsiElement getIdentifier() {
+    return findNotNullChildByType(IDENTIFIER);
   }
 
-  @Override
-  @Nullable
-  public PsiElement getFloatingPoint() {
-    return findChildByType(FLOATING_POINT);
+  public String getName() {
+    return ZsPsiImplUtil.getName(this);
+  }
+
+  public PsiElement getNameIdentifier() {
+    return ZsPsiImplUtil.getNameIdentifier(this);
+  }
+
+  public PsiElement setName(String name) {
+    return ZsPsiImplUtil.setName(this, name);
   }
 
 }

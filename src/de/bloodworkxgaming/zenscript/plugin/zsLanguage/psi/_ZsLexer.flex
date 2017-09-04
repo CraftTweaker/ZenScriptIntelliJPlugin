@@ -29,9 +29,8 @@ LINE_COMMENT="//".*
 BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*(\*+"/")?
 DOUBLE_QUOTED_STRING=\"([^\\\"\r\n]|\\[^\r\n])*\"?
 SINGLE_QUOTED_STRING='([^\\'\r\n]|\\[^\r\n])*'?
-DIGIT=[0-9]
-DIGITS=-?{DIGIT}+
-FLOATING_POINT={DIGITS}\.{DIGIT}+
+DIGITS=-?[0-9]+
+FLOATING_POINT={DIGITS}\.[0-9]+
 EOL=\R
 IDENTIFIER=[:jletter:] [:jletterdigit:]*
 
@@ -60,6 +59,7 @@ IDENTIFIER=[:jletter:] [:jletterdigit:]*
   "^"                         { return XOR; }
   "%"                         { return PERC; }
   "@"                         { return AT; }
+  "#"                         { return HASH; }
   ";"                         { return SEMICOLON; }
   ","                         { return COMMA; }
   "."                         { return DOT; }
@@ -91,13 +91,11 @@ IDENTIFIER=[:jletter:] [:jletterdigit:]*
   "null"                      { return NULL; }
   "true"                      { return TRUE; }
   "false"                     { return FALSE; }
-  "property"                  { return PROPERTY; }
 
   {LINE_COMMENT}              { return LINE_COMMENT; }
   {BLOCK_COMMENT}             { return BLOCK_COMMENT; }
   {DOUBLE_QUOTED_STRING}      { return DOUBLE_QUOTED_STRING; }
   {SINGLE_QUOTED_STRING}      { return SINGLE_QUOTED_STRING; }
-  {DIGIT}                     { return DIGIT; }
   {DIGITS}                    { return DIGITS; }
   {FLOATING_POINT}            { return FLOATING_POINT; }
   {EOL}                       { return EOL; }

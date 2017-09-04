@@ -33,6 +33,9 @@
         <lang.parserDefinition language="ZENSCRIPT" implementationClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.parsing.ZsParserDefinition"/>
         <lang.syntaxHighlighterFactory language="ZENSCRIPT" implementationClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.formatter.ZsSyntaxHighlighterFactory"/>
         <colorSettingsPage implementation="de.bloodworkxgaming.zenscript.plugin.zsLanguage.formatter.ZsColorSettingsPage"/>
+        <completion.contributor language="ZENSCRIPT" implementationClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.completion.ZsCompletionContributor"/>
+
+        <psi.referenceContributor implementation="de.bloodworkxgaming.zenscript.plugin.zsLanguage.reference.ZsReferenceContributor"/>
 
     </extensions>
 

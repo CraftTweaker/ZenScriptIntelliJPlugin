@@ -7,8 +7,8 @@ import de.bloodworkxgaming.zenscript.plugin.zsLanguage.ZsFileType;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.ZsLanguage;
 import org.jetbrains.annotations.NotNull;
 
-public class ZsPsiFile extends PsiFileBase {
-    public ZsPsiFile(@NotNull FileViewProvider viewProvider) {
+public class ZsFile extends PsiFileBase {
+    public ZsFile(@NotNull FileViewProvider viewProvider) {
         super(viewProvider, ZsLanguage.INSTANCE);
     }
 

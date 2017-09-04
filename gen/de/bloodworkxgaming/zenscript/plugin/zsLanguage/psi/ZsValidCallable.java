@@ -5,22 +5,13 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ZsValidVariable extends PsiElement {
-
-  @Nullable
-  ZsArrayDeclaration getArrayDeclaration();
+public interface ZsValidCallable extends PsiElement {
 
   @Nullable
   ZsArrayRead getArrayRead();
 
   @Nullable
   ZsBracketHandler getBracketHandler();
-
-  @Nullable
-  ZsFunctionCall getFunctionCall();
-
-  @Nullable
-  ZsNumber getNumber();
 
   @Nullable
   ZsVariable getVariable();

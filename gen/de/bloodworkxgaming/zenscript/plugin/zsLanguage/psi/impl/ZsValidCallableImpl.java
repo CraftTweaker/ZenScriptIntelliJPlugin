@@ -11,25 +11,19 @@ import static de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.*;
 
-public class ZsValidVariableImpl extends ASTWrapperPsiElement implements ZsValidVariable {
+public class ZsValidCallableImpl extends ASTWrapperPsiElement implements ZsValidCallable {
 
-  public ZsValidVariableImpl(ASTNode node) {
+  public ZsValidCallableImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ZsVisitor visitor) {
-    visitor.visitValidVariable(this);
+    visitor.visitValidCallable(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof ZsVisitor) accept((ZsVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public ZsArrayDeclaration getArrayDeclaration() {
-    return findChildByClass(ZsArrayDeclaration.class);
   }
 
   @Override
@@ -42,18 +36,6 @@ public class ZsValidVariableImpl extends ASTWrapperPsiElement implements ZsValid
   @Nullable
   public ZsBracketHandler getBracketHandler() {
     return findChildByClass(ZsBracketHandler.class);
-  }
-
-  @Override
-  @Nullable
-  public ZsFunctionCall getFunctionCall() {
-    return findChildByClass(ZsFunctionCall.class);
-  }
-
-  @Override
-  @Nullable
-  public ZsNumber getNumber() {
-    return findChildByClass(ZsNumber.class);
   }
 
   @Override

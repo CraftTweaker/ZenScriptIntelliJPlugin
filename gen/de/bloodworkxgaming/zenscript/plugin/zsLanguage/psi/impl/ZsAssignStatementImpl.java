@@ -34,8 +34,8 @@ public class ZsAssignStatementImpl extends ASTWrapperPsiElement implements ZsAss
 
   @Override
   @NotNull
-  public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
+  public ZsVariable getVariable() {
+    return findNotNullChildByClass(ZsVariable.class);
   }
 
 }

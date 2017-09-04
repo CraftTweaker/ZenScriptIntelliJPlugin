@@ -11,6 +11,6 @@ public interface ZsAssignStatement extends PsiElement {
   ZsValidVariable getValidVariable();
 
   @NotNull
-  PsiElement getIdentifier();
+  ZsVariable getVariable();
 
 }

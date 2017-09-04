@@ -49,7 +49,7 @@ public class ZsSyntaxHighlighter extends SyntaxHighlighterBase {
             return COMMENT_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHAR_KEYS;
-        } else if (tokenType.equals(ZsTypes.DIGIT) || tokenType.equals(ZsTypes.DIGITS) || tokenType.equals(ZsTypes.FLOATING_POINT)){
+        } else if (tokenType.equals(ZsTypes.NUMBER)){
             return NUMBER_KEYS;
         } else {
             return EMPTY_KEYS;

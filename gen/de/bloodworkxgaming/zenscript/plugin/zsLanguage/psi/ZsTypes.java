@@ -8,11 +8,16 @@ import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.*;
 
 public interface ZsTypes {
 
+  IElementType ARRAY_DECLARATION = new ZsElementType("ARRAY_DECLARATION");
+  IElementType ARRAY_READ = new ZsElementType("ARRAY_READ");
   IElementType ASSIGN_STATEMENT = new ZsElementType("ASSIGN_STATEMENT");
   IElementType BRACKET_HANDLER = new ZsElementType("BRACKET_HANDLER");
   IElementType FUNCTION_CALL = new ZsElementType("FUNCTION_CALL");
   IElementType NUMBER = new ZsElementType("NUMBER");
+  IElementType STATEMENT = new ZsElementType("STATEMENT");
+  IElementType VALID_CALLABLE = new ZsElementType("VALID_CALLABLE");
   IElementType VALID_VARIABLE = new ZsElementType("VALID_VARIABLE");
+  IElementType VARIABLE = new ZsElementType("VARIABLE");
 
   IElementType ANY = new ZsTokenType("any");
   IElementType AS = new ZsTokenType("as");
@@ -23,7 +28,6 @@ public interface ZsTypes {
   IElementType BYTE = new ZsTokenType("byte");
   IElementType COLON = new ZsTokenType(":");
   IElementType COMMA = new ZsTokenType(",");
-  IElementType DIGIT = new ZsTokenType("DIGIT");
   IElementType DIGITS = new ZsTokenType("DIGITS");
   IElementType DIV = new ZsTokenType("/");
   IElementType DOT = new ZsTokenType(".");
@@ -40,6 +44,7 @@ public interface ZsTypes {
   IElementType FOR = new ZsTokenType("for");
   IElementType FUNCTION = new ZsTokenType("function");
   IElementType GREATER_EQUAL = new ZsTokenType(">=");
+  IElementType HASH = new ZsTokenType("#");
   IElementType IDENTIFIER = new ZsTokenType("IDENTIFIER");
   IElementType IF = new ZsTokenType("if");
   IElementType IMPORT = new ZsTokenType("import");
@@ -58,7 +63,6 @@ public interface ZsTypes {
   IElementType OR = new ZsTokenType("|");
   IElementType PERC = new ZsTokenType("%");
   IElementType PLUS = new ZsTokenType("+");
-  IElementType PROPERTY = new ZsTokenType("property");
   IElementType QUEST = new ZsTokenType("?");
   IElementType RETURN = new ZsTokenType("return");
   IElementType R_ANGLE_BRACKET = new ZsTokenType(">");
@@ -80,7 +84,13 @@ public interface ZsTypes {
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-       if (type == ASSIGN_STATEMENT) {
+       if (type == ARRAY_DECLARATION) {
+        return new ZsArrayDeclarationImpl(node);
+      }
+      else if (type == ARRAY_READ) {
+        return new ZsArrayReadImpl(node);
+      }
+      else if (type == ASSIGN_STATEMENT) {
         return new ZsAssignStatementImpl(node);
       }
       else if (type == BRACKET_HANDLER) {
@@ -92,8 +102,17 @@ public interface ZsTypes {
       else if (type == NUMBER) {
         return new ZsNumberImpl(node);
       }
+      else if (type == STATEMENT) {
+        return new ZsStatementImpl(node);
+      }
+      else if (type == VALID_CALLABLE) {
+        return new ZsValidCallableImpl(node);
+      }
       else if (type == VALID_VARIABLE) {
         return new ZsValidVariableImpl(node);
+      }
+      else if (type == VARIABLE) {
+        return new ZsVariableImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

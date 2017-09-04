@@ -27,9 +27,9 @@ public class ZsFunctionCallImpl extends ASTWrapperPsiElement implements ZsFuncti
   }
 
   @Override
-  @Nullable
-  public ZsBracketHandler getBracketHandler() {
-    return findChildByClass(ZsBracketHandler.class);
+  @NotNull
+  public ZsValidCallable getValidCallable() {
+    return findNotNullChildByClass(ZsValidCallable.class);
   }
 
   @Override

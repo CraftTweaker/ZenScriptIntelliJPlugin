@@ -12,6 +12,8 @@
     elementTypeClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsElementType"
     tokenTypeClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTokenType"
 
+    psiImplUtilClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsPsiImplUtil"
+
     tokens = [
         // characters
         L_ROUND_BRACKET         = "("
@@ -37,6 +39,7 @@
         XOR             = "^"
         PERC            = "%"
         AT              = "@"
+        HASH            = "#"
 
         SEMICOLON       = ";"
         COMMA           = ","
@@ -53,9 +56,8 @@
         DOUBLE_QUOTED_STRING = "regexp:\"([^\\\"\r\n]|\\[^\r\n])*\"?"
         SINGLE_QUOTED_STRING = "regexp:'([^\\\'\r\n]|\\[^\r\n])*'?"
 
-        DIGIT           = "regexp:[0-9]"
-        DIGITS          = "regexp:-?{DIGIT}+"
-        FLOATING_POINT  = "regexp:{DIGITS}\.{DIGIT}+"
+        DIGITS          = "regexp:-?[0-9]+"
+        FLOATING_POINT  = "regexp:{DIGITS}\.[0-9]+"
 
         // types
         ANY         = "any"
@@ -93,15 +95,36 @@
    ]
 }
 
-zsFile ::= item_*
+zsFile ::= statement*
 
-private item_ ::= (bracketHandler | assignStatement | property | EOL | functionCall SEMICOLON )
+// private item_ ::=
+
+// general statement that is valid on it's own
+statement ::= assignStatement SEMICOLON
+              | EOL
+              | functionCall SEMICOLON
+
+
 bracketHandler ::= L_ANGLE_BRACKET (IDENTIFIER | COLON)* R_ANGLE_BRACKET
+variable ::= IDENTIFIER {methods= [getName getNameIdentifier setName]
+                         implements="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsNamedElement"
+                         mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"}
 
-number ::= DIGITS | FLOATING_POINT | DIGIT
-validVariable ::= bracketHandler | functionCall | IDENTIFIER | number | NULL
+number ::= DIGITS | FLOATING_POINT
 
-assignStatement ::= (VAR | VAL)? IDENTIFIER EQUAL validVariable SEMICOLON
-functionCall ::= (bracketHandler | IDENTIFIER) (DOT IDENTIFIER)+ (L_ROUND_BRACKET R_ROUND_BRACKET | (L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET))
+validVariable ::= bracketHandler | functionCall | variable | number | NULL | DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING | arrayDeclaration | arrayRead
+validCallable ::= bracketHandler | variable | DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING | arrayRead
 
-// property ::= (KEY? SEPARATOR VALUE?) | KEY
+assignStatement ::= (VAR | VAL)? variable EQUAL validVariable /*{mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
+                                                               implements= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
+                                                               methods=[getVariableName getNameIdentifier setVariableName]}*/
+functionCall ::= validCallable (DOT IDENTIFIER)+ (L_ROUND_BRACKET R_ROUND_BRACKET | (L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET))
+
+arrayDeclaration ::= L_SQUARE_BRACKET validVariable (COMMA validVariable)* R_SQUARE_BRACKET
+arrayRead ::= IDENTIFIER (DOT IDENTIFIER)* (L_SQUARE_BRACKET DIGITS R_SQUARE_BRACKET)+
+
+
+
+
+
+

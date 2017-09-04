@@ -11,6 +11,6 @@ public class ZsTokenType extends IElementType {
 
     @Override
     public String toString() {
-        return "ZsTokenType" + super.toString();
+        return "ZsTokenType '" + super.toString() +"'";
     }
 }

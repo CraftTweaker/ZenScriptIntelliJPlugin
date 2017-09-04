@@ -8,9 +8,6 @@ import com.intellij.psi.PsiElement;
 public interface ZsNumber extends PsiElement {
 
   @Nullable
-  PsiElement getDigit();
-
-  @Nullable
   PsiElement getDigits();
 
   @Nullable

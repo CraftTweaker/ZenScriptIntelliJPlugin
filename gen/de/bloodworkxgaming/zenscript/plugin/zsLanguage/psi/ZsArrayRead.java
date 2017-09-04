@@ -5,6 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ZsProperty extends PsiElement {
+public interface ZsArrayRead extends PsiElement {
 
 }

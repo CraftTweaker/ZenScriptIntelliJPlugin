@@ -7,6 +7,14 @@ import com.intellij.psi.PsiElement;
 
 public class ZsVisitor extends PsiElementVisitor {
 
+  public void visitArrayDeclaration(@NotNull ZsArrayDeclaration o) {
+    visitPsiElement(o);
+  }
+
+  public void visitArrayRead(@NotNull ZsArrayRead o) {
+    visitPsiElement(o);
+  }
+
   public void visitAssignStatement(@NotNull ZsAssignStatement o) {
     visitPsiElement(o);
   }
@@ -23,7 +31,23 @@ public class ZsVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitStatement(@NotNull ZsStatement o) {
+    visitPsiElement(o);
+  }
+
+  public void visitValidCallable(@NotNull ZsValidCallable o) {
+    visitPsiElement(o);
+  }
+
   public void visitValidVariable(@NotNull ZsValidVariable o) {
+    visitPsiElement(o);
+  }
+
+  public void visitVariable(@NotNull ZsVariable o) {
+    visitNamedElement(o);
+  }
+
+  public void visitNamedElement(@NotNull ZsNamedElement o) {
     visitPsiElement(o);
   }
 

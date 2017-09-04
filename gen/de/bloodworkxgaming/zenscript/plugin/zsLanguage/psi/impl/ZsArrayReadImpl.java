@@ -11,31 +11,19 @@ import static de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.*;
 
-public class ZsNumberImpl extends ASTWrapperPsiElement implements ZsNumber {
+public class ZsArrayReadImpl extends ASTWrapperPsiElement implements ZsArrayRead {
 
-  public ZsNumberImpl(ASTNode node) {
+  public ZsArrayReadImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ZsVisitor visitor) {
-    visitor.visitNumber(this);
+    visitor.visitArrayRead(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof ZsVisitor) accept((ZsVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getDigits() {
-    return findChildByType(DIGITS);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getFloatingPoint() {
-    return findChildByType(FLOATING_POINT);
   }
 
 }
