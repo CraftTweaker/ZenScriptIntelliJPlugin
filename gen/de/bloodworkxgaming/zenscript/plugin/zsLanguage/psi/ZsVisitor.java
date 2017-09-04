@@ -35,6 +35,10 @@ public class ZsVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitEquation(@NotNull ZsEquation o) {
+    visitPsiElement(o);
+  }
+
   public void visitForLoop(@NotNull ZsForLoop o) {
     visitPsiElement(o);
   }

@@ -49,7 +49,7 @@ public class ZsSyntaxHighlighter extends SyntaxHighlighterBase {
             return COMMENT_KEYS;
         } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
             return BAD_CHAR_KEYS;
-        } else if (tokenType.equals(ZsTypes.NUMBER)){
+        } else if (isNumber(tokenType)){
             return NUMBER_KEYS;
         } else {
             return EMPTY_KEYS;
@@ -81,5 +81,11 @@ public class ZsSyntaxHighlighter extends SyntaxHighlighterBase {
         tokenType.equals(ZsTypes.TRUE) |
         tokenType.equals(ZsTypes.FALSE) |
         tokenType.equals(ZsTypes.IMPORT);
+    }
+
+    private  boolean isNumber (IElementType tokenType){
+        return tokenType.equals(ZsTypes.NUMBER) |
+                tokenType.equals(ZsTypes.DIGITS) |
+                tokenType.equals(ZsTypes.FLOATING_POINT);
     }
 }

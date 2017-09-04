@@ -20,6 +20,9 @@ public interface ZsValidVariable extends PsiElement {
   ZsCastExpression getCastExpression();
 
   @Nullable
+  ZsEquation getEquation();
+
+  @Nullable
   ZsFunctionCall getFunctionCall();
 
   @Nullable
@@ -30,9 +33,6 @@ public interface ZsValidVariable extends PsiElement {
 
   @Nullable
   ZsVariable getVariable();
-
-  @Nullable
-  PsiElement getDigits();
 
   @Nullable
   PsiElement getDoubleQuotedString();

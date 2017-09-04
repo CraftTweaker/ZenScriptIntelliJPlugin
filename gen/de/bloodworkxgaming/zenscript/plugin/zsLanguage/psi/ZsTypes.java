@@ -15,6 +15,7 @@ public interface ZsTypes {
   IElementType CAST_EXPRESSION = new ZsElementType("CAST_EXPRESSION");
   IElementType CLASS_NAME = new ZsElementType("CLASS_NAME");
   IElementType CONDITION = new ZsElementType("CONDITION");
+  IElementType EQUATION = new ZsElementType("EQUATION");
   IElementType FOR_LOOP = new ZsElementType("FOR_LOOP");
   IElementType FUNCTION_BODY = new ZsElementType("FUNCTION_BODY");
   IElementType FUNCTION_CALL = new ZsElementType("FUNCTION_CALL");
@@ -120,6 +121,9 @@ public interface ZsTypes {
       }
       else if (type == CONDITION) {
         return new ZsConditionImpl(node);
+      }
+      else if (type == EQUATION) {
+        return new ZsEquationImpl(node);
       }
       else if (type == FOR_LOOP) {
         return new ZsForLoopImpl(node);

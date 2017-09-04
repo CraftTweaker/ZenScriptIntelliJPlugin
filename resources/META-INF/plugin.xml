@@ -39,11 +39,12 @@
 
     </extensions>
 
+
     <actions>
         <!-- Add your actions here -->
         <action id="de.bloodworkxgaming.zenscript.plugin.NewZSAction"
-                class="de.bloodworkxgaming.zenscript.plugin.NewZSAction" text="ZenScript File Creator">
-            <add-to-group group-id="FileMenu" anchor="first"/>
+                class="de.bloodworkxgaming.zenscript.plugin.NewZSAction" text="ZsAction">
+            <add-to-group group-id="ToolsMenu" anchor="first"/>
         </action>
     </actions>
 

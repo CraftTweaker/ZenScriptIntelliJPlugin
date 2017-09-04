@@ -120,10 +120,29 @@ class_name ::= IDENTIFIER (L_SQUARE_BRACKET R_SQUARE_BRACKET)*
 
 number ::= DIGITS | FLOATING_POINT
 
-validVariable ::= lambda_function_declaration | castExpression | (bracketHandler (ASTERISK DIGITS)?) | functionCall | variable | number | NULL | DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING | arrayDeclaration | arrayRead
-validCallable ::= bracketHandler | variable | DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING | arrayRead
+validVariable ::= lambda_function_declaration
+                  | castExpression
+                  | equation
+                  | bracketHandler
+                  | functionCall
+                  | field_reference
+                  | variable
+                  | number
+                  | NULL
+                  | DOUBLE_QUOTED_STRING
+                  | SINGLE_QUOTED_STRING
+                  | arrayDeclaration
+                  | arrayRead
 
-assignStatement ::= (VAR | VAL)? variable EQUAL validVariable /*{mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
+validCallable ::= bracketHandler
+                  | variable
+                  | DOUBLE_QUOTED_STRING
+                  | SINGLE_QUOTED_STRING
+                  | arrayRead
+
+field_reference ::= validCallable (DOT IDENTIFIER)+
+
+assignStatement ::= (VAR | VAL)? field_reference EQUAL validVariable /*{mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
                                                                implements= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
                                                                methods=[getVariableName getNameIdentifier setVariableName]}*/
 functionCall ::= validCallable (DOT IDENTIFIER)* (L_ROUND_BRACKET R_ROUND_BRACKET | (L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET))
@@ -149,3 +168,13 @@ parameter_list ::= (parameter_variable COMMA)* parameter_variable
 parameter_variable ::= (variable (AS class_name)?)
 function_body ::= L_CURLY_BRACKET statement* return_statement? R_CURLY_BRACKET
 
+//TODO: possibly replace with external code, does not support brackets this way
+equation ::= unary_math_signs? valid_calculation_variable (binary_math_signs unary_math_signs? valid_calculation_variable)+
+
+private valid_calculation_variable ::= bracketHandler
+                                       | functionCall
+                                       | number
+                                       | arrayRead
+                                       | variable
+private binary_math_signs ::= PLUS MINUS | ASTERISK | DIV
+private unary_math_signs ::= EXCL

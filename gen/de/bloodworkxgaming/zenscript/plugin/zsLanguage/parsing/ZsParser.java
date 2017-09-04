@@ -44,6 +44,9 @@ public class ZsParser implements PsiParser, LightPsiParser {
     else if (t == CONDITION) {
       r = condition(b, 0);
     }
+    else if (t == EQUATION) {
+      r = equation(b, 0);
+    }
     else if (t == FOR_LOOP) {
       r = for_loop(b, 0);
     }
@@ -238,6 +241,20 @@ public class ZsParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // PLUS | MINUS | ASTERISK | DIV
+  static boolean binary_math_signs(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "binary_math_signs")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, PLUS);
+    if (!r) r = consumeToken(b, MINUS);
+    if (!r) r = consumeToken(b, ASTERISK);
+    if (!r) r = consumeToken(b, DIV);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // L_ANGLE_BRACKET (IDENTIFIER | COLON | DIGITS | ASTERISK)* R_ANGLE_BRACKET
   public static boolean bracketHandler(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "bracketHandler")) return false;
@@ -362,6 +379,61 @@ public class ZsParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, R_ANGLE_BRACKET);
     exit_section_(b, m, null, r);
     return r;
+  }
+
+  /* ********************************************************** */
+  // unary_math_signs? valid_calculation_variable (binary_math_signs unary_math_signs? valid_calculation_variable)+
+  public static boolean equation(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "equation")) return false;
+    boolean r;
+    Marker m = enter_section_(b, l, _NONE_, EQUATION, "<equation>");
+    r = equation_0(b, l + 1);
+    r = r && valid_calculation_variable(b, l + 1);
+    r = r && equation_2(b, l + 1);
+    exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // unary_math_signs?
+  private static boolean equation_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "equation_0")) return false;
+    unary_math_signs(b, l + 1);
+    return true;
+  }
+
+  // (binary_math_signs unary_math_signs? valid_calculation_variable)+
+  private static boolean equation_2(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "equation_2")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = equation_2_0(b, l + 1);
+    int c = current_position_(b);
+    while (r) {
+      if (!equation_2_0(b, l + 1)) break;
+      if (!empty_element_parsed_guard_(b, "equation_2", c)) break;
+      c = current_position_(b);
+    }
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // binary_math_signs unary_math_signs? valid_calculation_variable
+  private static boolean equation_2_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "equation_2_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = binary_math_signs(b, l + 1);
+    r = r && equation_2_0_1(b, l + 1);
+    r = r && valid_calculation_variable(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // unary_math_signs?
+  private static boolean equation_2_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "equation_2_0_1")) return false;
+    unary_math_signs(b, l + 1);
+    return true;
   }
 
   /* ********************************************************** */
@@ -834,6 +906,19 @@ public class ZsParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // L_ROUND_BRACKET | R_ROUND_BRACKET
+  static boolean math_brackets(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "math_brackets")) return false;
+    if (!nextTokenIs(b, "", L_ROUND_BRACKET, R_ROUND_BRACKET)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, L_ROUND_BRACKET);
+    if (!r) r = consumeToken(b, R_ROUND_BRACKET);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  /* ********************************************************** */
   // DIGITS | FLOATING_POINT
   public static boolean number(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "number")) return false;
@@ -995,6 +1080,12 @@ public class ZsParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
+  // EXCL
+  static boolean unary_math_signs(PsiBuilder b, int l) {
+    return consumeToken(b, EXCL);
+  }
+
+  /* ********************************************************** */
   // bracketHandler | variable | DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING | arrayRead
   public static boolean validCallable(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "validCallable")) return false;
@@ -1010,14 +1101,26 @@ public class ZsParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // lambda_function_declaration | castExpression | (bracketHandler (ASTERISK DIGITS)?) | functionCall | variable | number | NULL | DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING | arrayDeclaration | arrayRead
+  // lambda_function_declaration
+  //                   | castExpression
+  //                   | equation
+  //                   | bracketHandler
+  //                   | functionCall
+  //                   | variable
+  //                   | number
+  //                   | NULL
+  //                   | DOUBLE_QUOTED_STRING
+  //                   | SINGLE_QUOTED_STRING
+  //                   | arrayDeclaration
+  //                   | arrayRead
   public static boolean validVariable(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "validVariable")) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, VALID_VARIABLE, "<valid variable>");
     r = lambda_function_declaration(b, l + 1);
     if (!r) r = castExpression(b, l + 1);
-    if (!r) r = validVariable_2(b, l + 1);
+    if (!r) r = equation(b, l + 1);
+    if (!r) r = bracketHandler(b, l + 1);
     if (!r) r = functionCall(b, l + 1);
     if (!r) r = variable(b, l + 1);
     if (!r) r = number(b, l + 1);
@@ -1030,30 +1133,21 @@ public class ZsParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // bracketHandler (ASTERISK DIGITS)?
-  private static boolean validVariable_2(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "validVariable_2")) return false;
+  /* ********************************************************** */
+  // bracketHandler
+  //                                        | functionCall
+  //                                        | number
+  //                                        | arrayRead
+  //                                        | variable
+  static boolean valid_calculation_variable(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "valid_calculation_variable")) return false;
     boolean r;
     Marker m = enter_section_(b);
     r = bracketHandler(b, l + 1);
-    r = r && validVariable_2_1(b, l + 1);
-    exit_section_(b, m, null, r);
-    return r;
-  }
-
-  // (ASTERISK DIGITS)?
-  private static boolean validVariable_2_1(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "validVariable_2_1")) return false;
-    validVariable_2_1_0(b, l + 1);
-    return true;
-  }
-
-  // ASTERISK DIGITS
-  private static boolean validVariable_2_1_0(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "validVariable_2_1_0")) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, ASTERISK, DIGITS);
+    if (!r) r = functionCall(b, l + 1);
+    if (!r) r = number(b, l + 1);
+    if (!r) r = arrayRead(b, l + 1);
+    if (!r) r = variable(b, l + 1);
     exit_section_(b, m, null, r);
     return r;
   }
