@@ -39,6 +39,10 @@ public class ZsVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFunctionDeclaration(@NotNull ZsFunctionDeclaration o) {
+    visitPsiElement(o);
+  }
+
   public void visitIfStatement(@NotNull ZsIfStatement o) {
     visitPsiElement(o);
   }
@@ -52,6 +56,14 @@ public class ZsVisitor extends PsiElementVisitor {
   }
 
   public void visitNumber(@NotNull ZsNumber o) {
+    visitPsiElement(o);
+  }
+
+  public void visitParameterList(@NotNull ZsParameterList o) {
+    visitPsiElement(o);
+  }
+
+  public void visitParameterVariable(@NotNull ZsParameterVariable o) {
     visitPsiElement(o);
   }
 

@@ -97,7 +97,7 @@
    ]
 }
 
-zsFile ::= import_list statement*
+zsFile ::= import_list (statement | function_declaration )*
 
 // private item_ ::=
 
@@ -140,4 +140,6 @@ condition ::= validVariable (EQEQ | NOT_EQUAL | GREATER_EQUAL | LESS_EQUAL | L_A
 
 if_statement ::= IF L_ROUND_BRACKET condition ((OR | AND | XOR) condition)* R_ROUND_BRACKET statement_body (ELSE statement_body)?
 
-function_declaration ::= FUNCTION IDENTIFIER L_ROUND_BRACKET (variable AS IDENTIFIER (L_SQUARE_BRACKET R_SQUARE_BRACKET)*)
+function_declaration ::= FUNCTION IDENTIFIER ((L_ROUND_BRACKET parameter_list R_ROUND_BRACKET) | (L_ROUND_BRACKET R_ROUND_BRACKET)) statement_body
+parameter_list ::= (parameter_variable COMMA)* parameter_variable
+parameter_variable ::= (variable (AS IDENTIFIER (L_SQUARE_BRACKET R_SQUARE_BRACKET)*)?)

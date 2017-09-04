@@ -16,10 +16,13 @@ public interface ZsTypes {
   IElementType CONDITION = new ZsElementType("CONDITION");
   IElementType FOR_LOOP = new ZsElementType("FOR_LOOP");
   IElementType FUNCTION_CALL = new ZsElementType("FUNCTION_CALL");
+  IElementType FUNCTION_DECLARATION = new ZsElementType("FUNCTION_DECLARATION");
   IElementType IF_STATEMENT = new ZsElementType("IF_STATEMENT");
   IElementType IMPORT_LIST = new ZsElementType("IMPORT_LIST");
   IElementType IMPORT_STATEMENT = new ZsElementType("IMPORT_STATEMENT");
   IElementType NUMBER = new ZsElementType("NUMBER");
+  IElementType PARAMETER_LIST = new ZsElementType("PARAMETER_LIST");
+  IElementType PARAMETER_VARIABLE = new ZsElementType("PARAMETER_VARIABLE");
   IElementType STATEMENT = new ZsElementType("STATEMENT");
   IElementType STATEMENT_BODY = new ZsElementType("STATEMENT_BODY");
   IElementType VALID_CALLABLE = new ZsElementType("VALID_CALLABLE");
@@ -117,6 +120,9 @@ public interface ZsTypes {
       else if (type == FUNCTION_CALL) {
         return new ZsFunctionCallImpl(node);
       }
+      else if (type == FUNCTION_DECLARATION) {
+        return new ZsFunctionDeclarationImpl(node);
+      }
       else if (type == IF_STATEMENT) {
         return new ZsIfStatementImpl(node);
       }
@@ -128,6 +134,12 @@ public interface ZsTypes {
       }
       else if (type == NUMBER) {
         return new ZsNumberImpl(node);
+      }
+      else if (type == PARAMETER_LIST) {
+        return new ZsParameterListImpl(node);
+      }
+      else if (type == PARAMETER_VARIABLE) {
+        return new ZsParameterVariableImpl(node);
       }
       else if (type == STATEMENT) {
         return new ZsStatementImpl(node);
