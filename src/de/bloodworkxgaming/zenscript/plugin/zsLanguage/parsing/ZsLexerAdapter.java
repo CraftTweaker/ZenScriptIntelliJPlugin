@@ -5,6 +5,6 @@ import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi._ZsLexer;
 
 public class ZsLexerAdapter extends FlexAdapter {
     public ZsLexerAdapter() {
-        super(new _ZsLexer()); // TODO: switch back to other lexer if needed
+        super(new _ZsLexer());
     }
 }

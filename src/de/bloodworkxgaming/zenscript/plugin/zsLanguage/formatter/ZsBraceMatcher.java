@@ -22,7 +22,7 @@ public class ZsBraceMatcher implements PairedBraceMatcher {
 
     @Override
     public boolean isPairedBracesAllowedBeforeType(@NotNull IElementType iElementType, @Nullable IElementType iElementType1) {
-        return false;
+        return true;
     }
 
     @Override

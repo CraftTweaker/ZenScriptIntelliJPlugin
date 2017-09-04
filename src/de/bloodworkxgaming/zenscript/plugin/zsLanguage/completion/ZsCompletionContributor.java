@@ -9,13 +9,41 @@ import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes;
 import org.jetbrains.annotations.NotNull;
 
 public class ZsCompletionContributor extends CompletionContributor {
+    private String[] keywords = {
+            "any",
+            "bool",
+            "byte",
+            "short",
+            "int",
+            "long",
+            "float",
+            "double",
+            "string",
+            "function",
+            "in",
+            "void",
+            "as",
+            "version",
+            "if",
+            "else",
+            "for",
+            "return",
+            "var",
+            "val",
+            "null",
+            "true",
+            "false",
+            "import",
+    };
+
     public ZsCompletionContributor() {
-        extend(CompletionType.BASIC,
-                PlatformPatterns.psiElement(ZsTypes.IDENTIFIER).withLanguage(ZsLanguage.INSTANCE),
+        extend(CompletionType.BASIC, PlatformPatterns.psiElement(ZsTypes.IDENTIFIER).withLanguage(ZsLanguage.INSTANCE),
                 new CompletionProvider<CompletionParameters>() {
                     @Override
                     protected void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet result) {
-                        result.addElement(LookupElementBuilder.create("Hello"));
+                        for (String keyword : keywords) {
+                            result.addElement(LookupElementBuilder.create(keyword));
+                        }
                     }
                 });
     }

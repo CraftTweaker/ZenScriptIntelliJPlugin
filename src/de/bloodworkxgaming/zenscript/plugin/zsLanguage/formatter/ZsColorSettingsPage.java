@@ -16,7 +16,7 @@ public class ZsColorSettingsPage implements ColorSettingsPage {
     private static final AttributesDescriptor[] DESCRIPTORS = new AttributesDescriptor[]{
             new AttributesDescriptor("Key", ZsSyntaxHighlighter.KEYWORD),
             new AttributesDescriptor("Separator", ZsSyntaxHighlighter.SEPARATOR),
-            new AttributesDescriptor("Value", ZsSyntaxHighlighter.VALUE),
+            new AttributesDescriptor("Value", ZsSyntaxHighlighter.VARIABLE),
     };
 
     @Nullable
