@@ -2,35 +2,42 @@ package de.bloodworkxgaming.zenscript.plugin.zsLanguage.reference;
 
 import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.codeInsight.lookup.LookupElementBuilder;
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.*;
+import com.intellij.util.IncorrectOperationException;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.ZsIcon;
+import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsFile;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsUtil;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsVariable;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-public class ZsReference extends PsiReferenceBase<PsiElement> implements PsiPolyVariantReference {
+public class ZsVariableReference extends PsiReferenceBase<ZsVariable> implements PsiPolyVariantReference {
     private String varName;
 
-    public ZsReference(PsiElement element, TextRange rangeInElement) {
-        super(element, rangeInElement);
-        varName = element.getText().substring(rangeInElement.getStartOffset(), rangeInElement.getEndOffset());
+    public ZsVariableReference(ZsVariable element) {
+        super(element, new TextRange(0, element.getName() == null ? 0 : element.getName().length()));
+        varName = element.getName();
     }
 
     @NotNull
     @Override
     public ResolveResult[] multiResolve(boolean incompleteCode) {
-        Project project = myElement.getProject();
-        final List<ZsVariable> properties = ZsUtil.findVariables(project, varName);
+        ZsFile file = (ZsFile) myElement.getContainingFile();
+
+        final List<ZsVariable> properties = ZsUtil.findVariables(file, varName);
+
         List<ResolveResult> results = new ArrayList<>();
         for (ZsVariable property : properties) {
-            results.add(new PsiElementResolveResult(property));
+            if (property != myElement)
+                results.add(new PsiElementResolveResult(property));
         }
+
         return results.toArray(new ResolveResult[results.size()]);
     }
 
@@ -44,17 +51,30 @@ public class ZsReference extends PsiReferenceBase<PsiElement> implements PsiPoly
     @NotNull
     @Override
     public Object[] getVariants() {
-        Project project = myElement.getProject();
-        List<ZsVariable> properties = ZsUtil.findVariables(project);
+        ZsFile file = (ZsFile) myElement.getContainingFile();
+
+        List<ZsVariable> properties = ZsUtil.findVariables(file);
         List<LookupElement> variants = new ArrayList<>();
+
+        Set<String> alreadyAdded = new HashSet<>();
+
+
         for (final ZsVariable property : properties) {
             if (property.getName() != null && property.getName().length() > 0) {
-                variants.add(LookupElementBuilder.create(property).
-                        withIcon(ZsIcon.FILE).
-                        withTypeText(property.getContainingFile().getName())
-                );
+                if (!alreadyAdded.contains(property.getName())){
+                    alreadyAdded.add(property.getName());
+                    variants.add(LookupElementBuilder.create(property).
+                            withIcon(ZsIcon.FILE).
+                            withTypeText(property.getParent().getText())
+                    );
+                }
             }
         }
         return variants.toArray();
+    }
+
+    @Override
+    public PsiElement handleElementRename(String newElementName) throws IncorrectOperationException {
+        return myElement.setName(newElementName);
     }
 }

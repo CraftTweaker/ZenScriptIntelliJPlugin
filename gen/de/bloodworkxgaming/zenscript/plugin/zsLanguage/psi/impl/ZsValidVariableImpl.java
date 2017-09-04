@@ -46,6 +46,12 @@ public class ZsValidVariableImpl extends ASTWrapperPsiElement implements ZsValid
 
   @Override
   @Nullable
+  public ZsCastExpression getCastExpression() {
+    return findChildByClass(ZsCastExpression.class);
+  }
+
+  @Override
+  @Nullable
   public ZsFunctionCall getFunctionCall() {
     return findChildByClass(ZsFunctionCall.class);
   }
@@ -60,6 +66,12 @@ public class ZsValidVariableImpl extends ASTWrapperPsiElement implements ZsValid
   @Nullable
   public ZsVariable getVariable() {
     return findChildByClass(ZsVariable.class);
+  }
+
+  @Override
+  @Nullable
+  public PsiElement getDigits() {
+    return findChildByType(DIGITS);
   }
 
   @Override

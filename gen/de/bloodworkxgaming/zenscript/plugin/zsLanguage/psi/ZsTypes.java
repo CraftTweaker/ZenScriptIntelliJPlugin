@@ -12,13 +12,21 @@ public interface ZsTypes {
   IElementType ARRAY_READ = new ZsElementType("ARRAY_READ");
   IElementType ASSIGN_STATEMENT = new ZsElementType("ASSIGN_STATEMENT");
   IElementType BRACKET_HANDLER = new ZsElementType("BRACKET_HANDLER");
+  IElementType CAST_EXPRESSION = new ZsElementType("CAST_EXPRESSION");
+  IElementType CONDITION = new ZsElementType("CONDITION");
+  IElementType FOR_LOOP = new ZsElementType("FOR_LOOP");
   IElementType FUNCTION_CALL = new ZsElementType("FUNCTION_CALL");
+  IElementType IF_STATEMENT = new ZsElementType("IF_STATEMENT");
+  IElementType IMPORT_LIST = new ZsElementType("IMPORT_LIST");
+  IElementType IMPORT_STATEMENT = new ZsElementType("IMPORT_STATEMENT");
   IElementType NUMBER = new ZsElementType("NUMBER");
   IElementType STATEMENT = new ZsElementType("STATEMENT");
+  IElementType STATEMENT_BODY = new ZsElementType("STATEMENT_BODY");
   IElementType VALID_CALLABLE = new ZsElementType("VALID_CALLABLE");
   IElementType VALID_VARIABLE = new ZsElementType("VALID_VARIABLE");
   IElementType VARIABLE = new ZsElementType("VARIABLE");
 
+  IElementType AND = new ZsTokenType("&");
   IElementType ANY = new ZsTokenType("any");
   IElementType AS = new ZsTokenType("as");
   IElementType ASTERISK = new ZsTokenType("*");
@@ -74,6 +82,7 @@ public interface ZsTypes {
   IElementType SINGLE_QUOTED_STRING = new ZsTokenType("SINGLE_QUOTED_STRING");
   IElementType STRING = new ZsTokenType("string");
   IElementType TILDE = new ZsTokenType("~");
+  IElementType TO = new ZsTokenType("to");
   IElementType TRUE = new ZsTokenType("true");
   IElementType VAL = new ZsTokenType("val");
   IElementType VAR = new ZsTokenType("var");
@@ -96,14 +105,35 @@ public interface ZsTypes {
       else if (type == BRACKET_HANDLER) {
         return new ZsBracketHandlerImpl(node);
       }
+      else if (type == CAST_EXPRESSION) {
+        return new ZsCastExpressionImpl(node);
+      }
+      else if (type == CONDITION) {
+        return new ZsConditionImpl(node);
+      }
+      else if (type == FOR_LOOP) {
+        return new ZsForLoopImpl(node);
+      }
       else if (type == FUNCTION_CALL) {
         return new ZsFunctionCallImpl(node);
+      }
+      else if (type == IF_STATEMENT) {
+        return new ZsIfStatementImpl(node);
+      }
+      else if (type == IMPORT_LIST) {
+        return new ZsImportListImpl(node);
+      }
+      else if (type == IMPORT_STATEMENT) {
+        return new ZsImportStatementImpl(node);
       }
       else if (type == NUMBER) {
         return new ZsNumberImpl(node);
       }
       else if (type == STATEMENT) {
         return new ZsStatementImpl(node);
+      }
+      else if (type == STATEMENT_BODY) {
+        return new ZsStatementBodyImpl(node);
       }
       else if (type == VALID_CALLABLE) {
         return new ZsValidCallableImpl(node);

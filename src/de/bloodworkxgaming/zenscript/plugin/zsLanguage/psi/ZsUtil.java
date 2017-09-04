@@ -15,9 +15,9 @@ import java.util.List;
 import java.util.Objects;
 
 public class ZsUtil {
-    public static List<ZsVariable> findVariables(Project project, String varName){
+    public static List<ZsVariable> findVariablesAllFiles(Project project, String varName){
         List<ZsVariable> result = new ArrayList<>();
-        for (ZsVariable zsVariable : findVariables(project)) {
+        for (ZsVariable zsVariable : findVariablesAllFiles(project)) {
             if (Objects.equals(zsVariable.getName(), varName)){
                 result.add(zsVariable);
             }
@@ -26,7 +26,7 @@ public class ZsUtil {
         return result;
     }
 
-    public static List<ZsVariable> findVariables(Project project){
+    public static List<ZsVariable> findVariablesAllFiles(Project project){
         List<ZsVariable> result = new ArrayList<>();
         Collection<VirtualFile> virtualFiles = FileTypeIndex.getFiles(ZsFileType.INSTANCE, GlobalSearchScope.allScope(project));
 
@@ -38,6 +38,22 @@ public class ZsUtil {
                 result.addAll(variables);
             }
         }
+        return result;
+    }
+
+
+    public static List<ZsVariable> findVariables(ZsFile zsFile){
+        return new ArrayList<>(PsiTreeUtil.findChildrenOfType(zsFile, ZsVariable.class));
+    }
+
+    public static List<ZsVariable> findVariables(ZsFile zsFile, String varName){
+        List<ZsVariable> result = new ArrayList<>();
+        for (ZsVariable zsVariable : findVariables(zsFile)) {
+            if (Objects.equals(zsVariable.getName(), varName)){
+                result.add(zsVariable);
+            }
+        }
+
         return result;
     }
 }

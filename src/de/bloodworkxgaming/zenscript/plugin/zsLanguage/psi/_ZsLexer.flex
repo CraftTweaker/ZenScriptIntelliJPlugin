@@ -56,6 +56,7 @@ IDENTIFIER=[:jletter:] [:jletterdigit:]*
   "*"                         { return ASTERISK; }
   "/"                         { return DIV; }
   "|"                         { return OR; }
+  "&"                         { return AND; }
   "^"                         { return XOR; }
   "%"                         { return PERC; }
   "@"                         { return AT; }
@@ -78,6 +79,7 @@ IDENTIFIER=[:jletter:] [:jletterdigit:]*
   "string"                    { return STRING; }
   "function"                  { return FUNCTION; }
   "in"                        { return IN; }
+  "to"                        { return TO; }
   "void"                      { return VOID; }
   "as"                        { return AS; }
   "version"                   { return VERSION; }

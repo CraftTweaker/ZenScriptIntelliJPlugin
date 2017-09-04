@@ -11,7 +11,13 @@ public interface ZsStatement extends PsiElement {
   ZsAssignStatement getAssignStatement();
 
   @Nullable
+  ZsForLoop getForLoop();
+
+  @Nullable
   ZsFunctionCall getFunctionCall();
+
+  @Nullable
+  ZsIfStatement getIfStatement();
 
   @Nullable
   PsiElement getEol();

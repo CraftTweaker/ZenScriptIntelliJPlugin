@@ -11,14 +11,14 @@ import static de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.*;
 
-public class ZsStatementImpl extends ASTWrapperPsiElement implements ZsStatement {
+public class ZsIfStatementImpl extends ASTWrapperPsiElement implements ZsIfStatement {
 
-  public ZsStatementImpl(ASTNode node) {
+  public ZsIfStatementImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ZsVisitor visitor) {
-    visitor.visitStatement(this);
+    visitor.visitIfStatement(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -27,33 +27,15 @@ public class ZsStatementImpl extends ASTWrapperPsiElement implements ZsStatement
   }
 
   @Override
-  @Nullable
-  public ZsAssignStatement getAssignStatement() {
-    return findChildByClass(ZsAssignStatement.class);
+  @NotNull
+  public List<ZsCondition> getConditionList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsCondition.class);
   }
 
   @Override
-  @Nullable
-  public ZsForLoop getForLoop() {
-    return findChildByClass(ZsForLoop.class);
-  }
-
-  @Override
-  @Nullable
-  public ZsFunctionCall getFunctionCall() {
-    return findChildByClass(ZsFunctionCall.class);
-  }
-
-  @Override
-  @Nullable
-  public ZsIfStatement getIfStatement() {
-    return findChildByClass(ZsIfStatement.class);
-  }
-
-  @Override
-  @Nullable
-  public PsiElement getEol() {
-    return findChildByType(EOL);
+  @NotNull
+  public List<ZsStatementBody> getStatementBodyList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsStatementBody.class);
   }
 
 }

@@ -17,6 +17,9 @@ public interface ZsValidVariable extends PsiElement {
   ZsBracketHandler getBracketHandler();
 
   @Nullable
+  ZsCastExpression getCastExpression();
+
+  @Nullable
   ZsFunctionCall getFunctionCall();
 
   @Nullable
@@ -24,6 +27,9 @@ public interface ZsValidVariable extends PsiElement {
 
   @Nullable
   ZsVariable getVariable();
+
+  @Nullable
+  PsiElement getDigits();
 
   @Nullable
   PsiElement getDoubleQuotedString();
