@@ -8,9 +8,9 @@ import com.intellij.psi.PsiElement;
 public interface ZsAssignStatement extends PsiElement {
 
   @NotNull
-  ZsValidVariable getValidVariable();
+  ZsFieldReference getFieldReference();
 
   @NotNull
-  ZsVariable getVariable();
+  ZsValidVariable getValidVariable();
 
 }

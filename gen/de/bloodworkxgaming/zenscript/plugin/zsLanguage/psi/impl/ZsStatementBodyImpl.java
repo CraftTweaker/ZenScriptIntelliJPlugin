@@ -27,6 +27,12 @@ public class ZsStatementBodyImpl extends ASTWrapperPsiElement implements ZsState
   }
 
   @Override
+  @Nullable
+  public ZsFunctionBody getFunctionBody() {
+    return findChildByClass(ZsFunctionBody.class);
+  }
+
+  @Override
   @NotNull
   public List<ZsStatement> getStatementList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsStatement.class);

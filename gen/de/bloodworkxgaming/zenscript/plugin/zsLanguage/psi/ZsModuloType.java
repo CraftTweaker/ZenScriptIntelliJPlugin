@@ -5,12 +5,15 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ZsStatementBody extends PsiElement {
+public interface ZsModuloType extends PsiElement {
 
   @Nullable
-  ZsFunctionBody getFunctionBody();
+  ZsBracketHandler getBracketHandler();
+
+  @Nullable
+  ZsVariable getVariable();
 
   @NotNull
-  List<ZsStatement> getStatementList();
+  PsiElement getDigits();
 
 }

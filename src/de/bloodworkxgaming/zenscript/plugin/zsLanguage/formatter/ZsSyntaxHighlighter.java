@@ -23,7 +23,7 @@ import static com.intellij.openapi.editor.colors.TextAttributesKey.createTextAtt
 public class ZsSyntaxHighlighter extends SyntaxHighlighterBase {
     public static final TextAttributesKey SEPARATOR = createTextAttributesKey("ZS_SEPARATOR", DefaultLanguageHighlighterColors.OPERATION_SIGN);
     public static final TextAttributesKey KEYWORD = createTextAttributesKey("ZS_KEY", DefaultLanguageHighlighterColors.KEYWORD);
-    public static final TextAttributesKey VARIABLE = createTextAttributesKey("ZS_VARIABLE", DefaultLanguageHighlighterColors.KEYWORD); //TODO: set back to right name
+    public static final TextAttributesKey VARIABLE = createTextAttributesKey("ZS_VARIABLE", DefaultLanguageHighlighterColors.LOCAL_VARIABLE); //TODO: set back to right name
     public static final TextAttributesKey COMMENT = createTextAttributesKey("ZS_COMMENT", DefaultLanguageHighlighterColors.LINE_COMMENT);
     public static final TextAttributesKey BAD_CHARACTER = createTextAttributesKey("ZS_BAD_CHARACTER", HighlighterColors.BAD_CHARACTER);
     public static final TextAttributesKey STRING = createTextAttributesKey("ZS_STRING", DefaultLanguageHighlighterColors.STRING);
@@ -51,21 +51,28 @@ public class ZsSyntaxHighlighter extends SyntaxHighlighterBase {
     public TextAttributesKey[] getTokenHighlights(IElementType tokenType) {
         if (tokenType.equals(ZsTypes.VARIABLE)) {
             return VARIABLE_KEYS;
-        } else if (isKeyword(tokenType)) {
-            return KEYWORD_KEYS;
-        } else if (tokenType.equals(ZsTypes.DOUBLE_QUOTED_STRING) | tokenType.equals(ZsTypes.SINGLE_QUOTED_STRING)) {
-            return STRING_KEYS;
-        } else if (tokenType.equals(ZsTypes.LINE_COMMENT) || tokenType.equals(ZsTypes.BLOCK_COMMENT)) {
-            return COMMENT_KEYS;
-        } else if (tokenType.equals(TokenType.BAD_CHARACTER)) {
-            return BAD_CHAR_KEYS;
-        } else if (isNumber(tokenType)){
-            return NUMBER_KEYS;
-        } else if (tokenType.equals(ZsTypes.BRACKET_HANDLER)){
-            return BRACKET_HANDLER_KEYS;
-        } else if (tokenType.equals(ZsTypes.IDENTIFIER)){
-            return VARIABLE_KEYS;
         }
+        if (isKeyword(tokenType)) {
+            return KEYWORD_KEYS;
+        }
+        if (tokenType.equals(ZsTypes.DOUBLE_QUOTED_STRING) | tokenType.equals(ZsTypes.SINGLE_QUOTED_STRING)) {
+            return STRING_KEYS;
+        }
+        if (tokenType.equals(ZsTypes.LINE_COMMENT) || tokenType.equals(ZsTypes.BLOCK_COMMENT)) {
+            return COMMENT_KEYS;
+        }
+        if (tokenType.equals(TokenType.BAD_CHARACTER)) {
+            return BAD_CHAR_KEYS;
+        }
+        if (isNumber(tokenType)){
+            return NUMBER_KEYS;
+        }
+        if (tokenType.equals(ZsTypes.BRACKET_HANDLER)){
+            return BRACKET_HANDLER_KEYS;
+        }
+        /* if (tokenType.equals(ZsTypes.IDENTIFIER)){
+            return VARIABLE_KEYS;
+        }*/
 
         return EMPTY_KEYS;
     }

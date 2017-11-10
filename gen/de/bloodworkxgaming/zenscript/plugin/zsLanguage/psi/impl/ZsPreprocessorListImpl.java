@@ -11,14 +11,14 @@ import static de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.*;
 
-public class ZsAssignStatementImpl extends ASTWrapperPsiElement implements ZsAssignStatement {
+public class ZsPreprocessorListImpl extends ASTWrapperPsiElement implements ZsPreprocessorList {
 
-  public ZsAssignStatementImpl(ASTNode node) {
+  public ZsPreprocessorListImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ZsVisitor visitor) {
-    visitor.visitAssignStatement(this);
+    visitor.visitPreprocessorList(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -28,14 +28,8 @@ public class ZsAssignStatementImpl extends ASTWrapperPsiElement implements ZsAss
 
   @Override
   @NotNull
-  public ZsFieldReference getFieldReference() {
-    return findNotNullChildByClass(ZsFieldReference.class);
-  }
-
-  @Override
-  @NotNull
-  public ZsValidVariable getValidVariable() {
-    return findNotNullChildByClass(ZsValidVariable.class);
+  public List<ZsPreprocessor> getPreprocessorList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsPreprocessor.class);
   }
 
 }

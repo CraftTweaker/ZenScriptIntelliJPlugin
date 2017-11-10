@@ -13,10 +13,10 @@ public class ZsBraceMatcher implements PairedBraceMatcher {
     @Override
     public BracePair[] getPairs() {
         return new BracePair[]{
-                new BracePair(ZsTypes.L_ROUND_BRACKET, ZsTypes.R_ROUND_BRACKET, true),
-                new BracePair(ZsTypes.L_ANGLE_BRACKET, ZsTypes.R_ANGLE_BRACKET, true),
-                new BracePair(ZsTypes.L_SQUARE_BRACKET, ZsTypes.R_SQUARE_BRACKET, true),
-                new BracePair(ZsTypes.L_CURLY_BRACKET, ZsTypes.R_CURLY_BRACKET, true),
+                new BracePair(ZsTypes.L_ROUND_BRACKET, ZsTypes.R_ROUND_BRACKET, false),
+                new BracePair(ZsTypes.L_ANGLE_BRACKET, ZsTypes.R_ANGLE_BRACKET, false),
+                new BracePair(ZsTypes.L_SQUARE_BRACKET, ZsTypes.R_SQUARE_BRACKET, false),
+                new BracePair(ZsTypes.L_CURLY_BRACKET, ZsTypes.R_CURLY_BRACKET, false),
         };
     }
 

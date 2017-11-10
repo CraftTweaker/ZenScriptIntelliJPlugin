@@ -16,6 +16,7 @@ public interface ZsTypes {
   IElementType CLASS_NAME = new ZsElementType("CLASS_NAME");
   IElementType CONDITION = new ZsElementType("CONDITION");
   IElementType EQUATION = new ZsElementType("EQUATION");
+  IElementType FIELD_REFERENCE = new ZsElementType("FIELD_REFERENCE");
   IElementType FOR_LOOP = new ZsElementType("FOR_LOOP");
   IElementType FUNCTION_BODY = new ZsElementType("FUNCTION_BODY");
   IElementType FUNCTION_CALL = new ZsElementType("FUNCTION_CALL");
@@ -24,9 +25,12 @@ public interface ZsTypes {
   IElementType IMPORT_LIST = new ZsElementType("IMPORT_LIST");
   IElementType IMPORT_STATEMENT = new ZsElementType("IMPORT_STATEMENT");
   IElementType LAMBDA_FUNCTION_DECLARATION = new ZsElementType("LAMBDA_FUNCTION_DECLARATION");
+  IElementType MODULO_TYPE = new ZsElementType("MODULO_TYPE");
   IElementType NUMBER = new ZsElementType("NUMBER");
   IElementType PARAMETER_LIST = new ZsElementType("PARAMETER_LIST");
   IElementType PARAMETER_VARIABLE = new ZsElementType("PARAMETER_VARIABLE");
+  IElementType PREPROCESSOR = new ZsElementType("PREPROCESSOR");
+  IElementType PREPROCESSOR_LIST = new ZsElementType("PREPROCESSOR_LIST");
   IElementType RETURN_STATEMENT = new ZsElementType("RETURN_STATEMENT");
   IElementType STATEMENT = new ZsElementType("STATEMENT");
   IElementType STATEMENT_BODY = new ZsElementType("STATEMENT_BODY");
@@ -125,6 +129,9 @@ public interface ZsTypes {
       else if (type == EQUATION) {
         return new ZsEquationImpl(node);
       }
+      else if (type == FIELD_REFERENCE) {
+        return new ZsFieldReferenceImpl(node);
+      }
       else if (type == FOR_LOOP) {
         return new ZsForLoopImpl(node);
       }
@@ -149,6 +156,9 @@ public interface ZsTypes {
       else if (type == LAMBDA_FUNCTION_DECLARATION) {
         return new ZsLambdaFunctionDeclarationImpl(node);
       }
+      else if (type == MODULO_TYPE) {
+        return new ZsModuloTypeImpl(node);
+      }
       else if (type == NUMBER) {
         return new ZsNumberImpl(node);
       }
@@ -157,6 +167,12 @@ public interface ZsTypes {
       }
       else if (type == PARAMETER_VARIABLE) {
         return new ZsParameterVariableImpl(node);
+      }
+      else if (type == PREPROCESSOR) {
+        return new ZsPreprocessorImpl(node);
+      }
+      else if (type == PREPROCESSOR_LIST) {
+        return new ZsPreprocessorListImpl(node);
       }
       else if (type == RETURN_STATEMENT) {
         return new ZsReturnStatementImpl(node);

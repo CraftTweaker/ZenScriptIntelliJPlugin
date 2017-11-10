@@ -39,6 +39,10 @@ public class ZsVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitFieldReference(@NotNull ZsFieldReference o) {
+    visitPsiElement(o);
+  }
+
   public void visitForLoop(@NotNull ZsForLoop o) {
     visitPsiElement(o);
   }
@@ -71,6 +75,10 @@ public class ZsVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
+  public void visitModuloType(@NotNull ZsModuloType o) {
+    visitPsiElement(o);
+  }
+
   public void visitNumber(@NotNull ZsNumber o) {
     visitPsiElement(o);
   }
@@ -80,6 +88,14 @@ public class ZsVisitor extends PsiElementVisitor {
   }
 
   public void visitParameterVariable(@NotNull ZsParameterVariable o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPreprocessor(@NotNull ZsPreprocessor o) {
+    visitPsiElement(o);
+  }
+
+  public void visitPreprocessorList(@NotNull ZsPreprocessorList o) {
     visitPsiElement(o);
   }
 

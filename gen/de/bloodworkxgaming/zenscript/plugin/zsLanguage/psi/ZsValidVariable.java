@@ -23,10 +23,16 @@ public interface ZsValidVariable extends PsiElement {
   ZsEquation getEquation();
 
   @Nullable
+  ZsFieldReference getFieldReference();
+
+  @Nullable
   ZsFunctionCall getFunctionCall();
 
   @Nullable
   ZsLambdaFunctionDeclaration getLambdaFunctionDeclaration();
+
+  @Nullable
+  ZsModuloType getModuloType();
 
   @Nullable
   ZsNumber getNumber();

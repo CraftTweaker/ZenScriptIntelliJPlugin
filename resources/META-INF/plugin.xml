@@ -37,6 +37,7 @@
 
         <psi.referenceContributor implementation="de.bloodworkxgaming.zenscript.plugin.zsLanguage.reference.ZsReferenceContributor"/>
 
+        <annotator language="ZENSCRIPT" implementationClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.formatter.ZsAnnotator"/>
     </extensions>
 
 

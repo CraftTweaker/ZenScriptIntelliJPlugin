@@ -11,31 +11,19 @@ import static de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.*;
 
-public class ZsAssignStatementImpl extends ASTWrapperPsiElement implements ZsAssignStatement {
+public class ZsPreprocessorImpl extends ASTWrapperPsiElement implements ZsPreprocessor {
 
-  public ZsAssignStatementImpl(ASTNode node) {
+  public ZsPreprocessorImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ZsVisitor visitor) {
-    visitor.visitAssignStatement(this);
+    visitor.visitPreprocessor(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof ZsVisitor) accept((ZsVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @NotNull
-  public ZsFieldReference getFieldReference() {
-    return findNotNullChildByClass(ZsFieldReference.class);
-  }
-
-  @Override
-  @NotNull
-  public ZsValidVariable getValidVariable() {
-    return findNotNullChildByClass(ZsValidVariable.class);
   }
 
 }

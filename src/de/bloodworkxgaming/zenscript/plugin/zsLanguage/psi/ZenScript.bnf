@@ -1,5 +1,6 @@
 {
     parserClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.parsing.ZsParser"
+  parserUtilClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.parsing.ZsParserUtil"
 
     extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
@@ -97,9 +98,12 @@
    ]
 }
 
-zsFile ::= import_list (statement | function_declaration )*
+zsFile ::= preprocessor_list? import_list (statement | function_declaration )*
 
 // private item_ ::=
+
+preprocessor_list ::= preprocessor*
+preprocessor ::= HASH IDENTIFIER*
 
 import_list ::= import_statement*
 import_statement ::= IMPORT IDENTIFIER (DOT IDENTIFIER)* SEMICOLON
@@ -109,7 +113,10 @@ statement ::= assignStatement SEMICOLON
               | EOL
               | functionCall SEMICOLON
               | for_loop
-              | if_statement
+              | if_statement /*{recoverWhile=statement_recover}*/
+
+private statement_recover ::= SEMICOLON
+
 
 
 bracketHandler ::= L_ANGLE_BRACKET (IDENTIFIER | COLON | DIGITS | ASTERISK)* R_ANGLE_BRACKET
@@ -119,6 +126,7 @@ variable ::= IDENTIFIER {methods= [getName getNameIdentifier setName]
 class_name ::= IDENTIFIER (L_SQUARE_BRACKET R_SQUARE_BRACKET)*
 
 number ::= DIGITS | FLOATING_POINT
+
 
 validVariable ::= lambda_function_declaration
                   | castExpression
@@ -133,6 +141,9 @@ validVariable ::= lambda_function_declaration
                   | SINGLE_QUOTED_STRING
                   | arrayDeclaration
                   | arrayRead
+                  | moduloType
+                  | TRUE
+                  | FALSE
 
 validCallable ::= bracketHandler
                   | variable
@@ -140,24 +151,27 @@ validCallable ::= bracketHandler
                   | SINGLE_QUOTED_STRING
                   | arrayRead
 
-field_reference ::= validCallable (DOT IDENTIFIER)+
+field_reference ::= validCallable (DOT IDENTIFIER)*
+
+moduloType ::= (bracketHandler | variable)PERC DIGITS
 
 assignStatement ::= (VAR | VAL)? field_reference EQUAL validVariable /*{mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
                                                                implements= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
                                                                methods=[getVariableName getNameIdentifier setVariableName]}*/
-functionCall ::= validCallable (DOT IDENTIFIER)* (L_ROUND_BRACKET R_ROUND_BRACKET | (L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET))
+functionCall ::= validCallable ((DOT IDENTIFIER)* (L_ROUND_BRACKET R_ROUND_BRACKET | (L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET)))+
 
 arrayDeclaration ::= L_SQUARE_BRACKET validVariable (COMMA validVariable)* R_SQUARE_BRACKET
 arrayRead ::= IDENTIFIER (DOT IDENTIFIER)* (L_SQUARE_BRACKET DIGITS R_SQUARE_BRACKET)+
 
 castExpression ::= (arrayDeclaration | IDENTIFIER | bracketHandler) AS class_name
 
-statement_body ::= L_CURLY_BRACKET statement* R_CURLY_BRACKET
+// CONTROL STATEMENTS
+statement_body ::= (L_CURLY_BRACKET statement* R_CURLY_BRACKET | function_body)
 return_statement ::= RETURN validVariable SEMICOLON
 
 for_loop ::= FOR (((variable COMMA)? variable in variable) | (variable IN DIGITS ((DOT DOT) | TO) DIGITS)) statement_body
 
-condition ::= validVariable (EQEQ | NOT_EQUAL | GREATER_EQUAL | LESS_EQUAL | L_ANGLE_BRACKET | R_ANGLE_BRACKET) validVariable
+condition ::= validVariable ((EQEQ | NOT_EQUAL | GREATER_EQUAL | LESS_EQUAL | L_ANGLE_BRACKET | R_ANGLE_BRACKET) validVariable)*
 
 if_statement ::= IF L_ROUND_BRACKET condition ((OR | AND | XOR) condition)* R_ROUND_BRACKET statement_body (ELSE statement_body)?
 

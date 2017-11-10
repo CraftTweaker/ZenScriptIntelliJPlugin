@@ -5,12 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ZsStatementBody extends PsiElement {
-
-  @Nullable
-  ZsFunctionBody getFunctionBody();
-
-  @NotNull
-  List<ZsStatement> getStatementList();
+public interface ZsPreprocessor extends PsiElement {
 
 }
