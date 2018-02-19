@@ -191,5 +191,6 @@ private valid_calculation_variable ::= bracketHandler
                                        | number
                                        | arrayRead
                                        | variable
-private binary_math_signs ::= PLUS MINUS | ASTERISK | DIV
+private binary_math_signs ::= PLUS | MINUS | ASTERISK | DIV
 private unary_math_signs ::= EXCL
+

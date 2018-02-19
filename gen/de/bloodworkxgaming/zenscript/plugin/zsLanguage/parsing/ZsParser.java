@@ -253,12 +253,13 @@ public class ZsParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // PLUS MINUS | ASTERISK | DIV
+  // PLUS | MINUS | ASTERISK | DIV
   static boolean binary_math_signs(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "binary_math_signs")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = parseTokens(b, 0, PLUS, MINUS);
+    r = consumeToken(b, PLUS);
+    if (!r) r = consumeToken(b, MINUS);
     if (!r) r = consumeToken(b, ASTERISK);
     if (!r) r = consumeToken(b, DIV);
     exit_section_(b, m, null, r);
