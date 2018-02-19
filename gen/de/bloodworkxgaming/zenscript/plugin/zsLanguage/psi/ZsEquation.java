@@ -14,6 +14,9 @@ public interface ZsEquation extends PsiElement {
   List<ZsBracketHandler> getBracketHandlerList();
 
   @NotNull
+  List<ZsFieldReference> getFieldReferenceList();
+
+  @NotNull
   List<ZsFunctionCall> getFunctionCallList();
 
   @NotNull

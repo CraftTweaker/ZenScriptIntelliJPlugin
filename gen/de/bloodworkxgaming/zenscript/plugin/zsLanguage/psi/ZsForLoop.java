@@ -10,7 +10,13 @@ public interface ZsForLoop extends PsiElement {
   @NotNull
   ZsStatementBody getStatementBody();
 
+  @Nullable
+  ZsValidVariable getValidVariable();
+
   @NotNull
   List<ZsVariable> getVariableList();
+
+  @NotNull
+  PsiElement getIn();
 
 }

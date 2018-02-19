@@ -29,8 +29,10 @@ LINE_COMMENT="//".*
 BLOCK_COMMENT="/"\*([^*]|\*+[^*/])*(\*+"/")?
 DOUBLE_QUOTED_STRING=\"([^\\\"\r\n]|\\[^\r\n])*\"?
 SINGLE_QUOTED_STRING='([^\\'\r\n]|\\[^\r\n])*'?
+PREPROCESSOR=#[^ \t\n\x0B\f\r].*\R
 DIGITS=-?[0-9]+
 FLOATING_POINT={DIGITS}\.[0-9]+
+IN=in|has
 EOL=\R
 IDENTIFIER=[:jletter:] [:jletterdigit:]*
 
@@ -78,7 +80,6 @@ IDENTIFIER=[:jletter:] [:jletterdigit:]*
   "double"                    { return DOUBLE; }
   "string"                    { return STRING; }
   "function"                  { return FUNCTION; }
-  "in"                        { return IN; }
   "to"                        { return TO; }
   "void"                      { return VOID; }
   "as"                        { return AS; }
@@ -90,6 +91,8 @@ IDENTIFIER=[:jletter:] [:jletterdigit:]*
   "import"                    { return IMPORT; }
   "var"                       { return VAR; }
   "val"                       { return VAL; }
+  "static"                    { return STATIC; }
+  "global"                    { return GLOBAL; }
   "null"                      { return NULL; }
   "true"                      { return TRUE; }
   "false"                     { return FALSE; }
@@ -98,8 +101,10 @@ IDENTIFIER=[:jletter:] [:jletterdigit:]*
   {BLOCK_COMMENT}             { return BLOCK_COMMENT; }
   {DOUBLE_QUOTED_STRING}      { return DOUBLE_QUOTED_STRING; }
   {SINGLE_QUOTED_STRING}      { return SINGLE_QUOTED_STRING; }
+  {PREPROCESSOR}              { return PREPROCESSOR; }
   {DIGITS}                    { return DIGITS; }
   {FLOATING_POINT}            { return FLOATING_POINT; }
+  {IN}                        { return IN; }
   {EOL}                       { return EOL; }
   {IDENTIFIER}                { return IDENTIFIER; }
 

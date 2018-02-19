@@ -32,4 +32,10 @@ public class ZsConditionImpl extends ASTWrapperPsiElement implements ZsCondition
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsValidVariable.class);
   }
 
+  @Override
+  @Nullable
+  public PsiElement getIn() {
+    return findChildByType(IN);
+  }
+
 }

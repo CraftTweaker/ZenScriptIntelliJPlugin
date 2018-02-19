@@ -26,10 +26,4 @@ public class ZsPreprocessorListImpl extends ASTWrapperPsiElement implements ZsPr
     else super.accept(visitor);
   }
 
-  @Override
-  @NotNull
-  public List<ZsPreprocessor> getPreprocessorList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsPreprocessor.class);
-  }
-
 }

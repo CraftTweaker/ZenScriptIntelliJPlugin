@@ -39,15 +39,9 @@ public class ZsAssignStatementImpl extends ASTWrapperPsiElement implements ZsAss
   }
 
   @Override
-  @Nullable
-  public ZsMapDeclaration getMapDeclaration() {
-    return findChildByClass(ZsMapDeclaration.class);
-  }
-
-  @Override
-  @Nullable
+  @NotNull
   public ZsValidVariable getValidVariable() {
-    return findChildByClass(ZsValidVariable.class);
+    return findNotNullChildByClass(ZsValidVariable.class);
   }
 
 }

@@ -99,10 +99,6 @@ public class ZsVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitPreprocessor(@NotNull ZsPreprocessor o) {
-    visitPsiElement(o);
-  }
-
   public void visitPreprocessorList(@NotNull ZsPreprocessorList o) {
     visitPsiElement(o);
   }

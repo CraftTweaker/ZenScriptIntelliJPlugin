@@ -33,9 +33,21 @@ public class ZsForLoopImpl extends ASTWrapperPsiElement implements ZsForLoop {
   }
 
   @Override
+  @Nullable
+  public ZsValidVariable getValidVariable() {
+    return findChildByClass(ZsValidVariable.class);
+  }
+
+  @Override
   @NotNull
   public List<ZsVariable> getVariableList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsVariable.class);
+  }
+
+  @Override
+  @NotNull
+  public PsiElement getIn() {
+    return findNotNullChildByType(IN);
   }
 
 }

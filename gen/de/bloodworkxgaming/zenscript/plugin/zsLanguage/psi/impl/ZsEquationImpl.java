@@ -40,6 +40,12 @@ public class ZsEquationImpl extends ASTWrapperPsiElement implements ZsEquation {
 
   @Override
   @NotNull
+  public List<ZsFieldReference> getFieldReferenceList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsFieldReference.class);
+  }
+
+  @Override
+  @NotNull
   public List<ZsFunctionCall> getFunctionCallList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsFunctionCall.class);
   }

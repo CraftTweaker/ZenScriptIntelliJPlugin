@@ -33,12 +33,6 @@ public class ZsCastExpressionImpl extends ASTWrapperPsiElement implements ZsCast
   }
 
   @Override
-  @Nullable
-  public ZsBracketHandler getBracketHandler() {
-    return findChildByClass(ZsBracketHandler.class);
-  }
-
-  @Override
   @NotNull
   public ZsClassName getClassName() {
     return findNotNullChildByClass(ZsClassName.class);
@@ -46,8 +40,26 @@ public class ZsCastExpressionImpl extends ASTWrapperPsiElement implements ZsCast
 
   @Override
   @Nullable
-  public PsiElement getIdentifier() {
-    return findChildByType(IDENTIFIER);
+  public ZsFieldReference getFieldReference() {
+    return findChildByClass(ZsFieldReference.class);
+  }
+
+  @Override
+  @Nullable
+  public ZsFunctionCall getFunctionCall() {
+    return findChildByClass(ZsFunctionCall.class);
+  }
+
+  @Override
+  @Nullable
+  public ZsNumber getNumber() {
+    return findChildByClass(ZsNumber.class);
+  }
+
+  @Override
+  @Nullable
+  public ZsValidCallable getValidCallable() {
+    return findChildByClass(ZsValidCallable.class);
   }
 
 }

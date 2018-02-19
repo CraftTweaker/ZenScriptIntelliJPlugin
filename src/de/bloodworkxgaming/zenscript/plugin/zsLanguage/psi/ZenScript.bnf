@@ -57,6 +57,7 @@
 
         DOUBLE_QUOTED_STRING = "regexp:\"([^\\\"\r\n]|\\[^\r\n])*\"?"
         SINGLE_QUOTED_STRING = "regexp:'([^\\\'\r\n]|\\[^\r\n])*'?"
+        PREPROCESSOR         = "regexp:#\S.*\R"
 
         DIGITS          = "regexp:-?[0-9]+"
         FLOATING_POINT  = "regexp:{DIGITS}\.[0-9]+"
@@ -74,7 +75,7 @@
 
         // control structure
         FUNCTION    = "function"
-        IN          = "in"
+        IN          = "regexp:in|has"
         TO          = "to"
         VOID        = "void"
         AS          = "as"
@@ -85,8 +86,11 @@
         RETURN      = "return"
         IMPORT      = "import"
 
+        // variable modifiers
         VAR         = "var"
         VAL         = "val"
+        STATIC      = "static"
+        GLOBAL      = "global"
 
         // constants
         NULL        = "null"
@@ -100,26 +104,26 @@
 
 zsFile ::= preprocessor_list? import_list (statement | function_declaration )*
 
-// private item_ ::=
+private keywords ::= L_ROUND_BRACKET | R_ROUND_BRACKET | L_SQUARE_BRACKET | R_SQUARE_BRACKET | L_CURLY_BRACKET | R_CURLY_BRACKET | EQUAL | EXCL | TILDE | QUEST | COLON | PLUS | MINUS | ASTERISK | DIV | OR | AND | XOR | PERC | AT | HASH | SEMICOLON | COMMA | DOT | EQEQ | NOT_EQUAL | LESS_EQUAL | GREATER_EQUAL | ANY   | BOOL  | BYTE  | SHORT | INT   | LONG  | FLOAT | DOUBLE| STRING| FUNCTION| IN | TO | VOID | AS | VERSION | IF | ELSE | FOR | RETURN | IMPORT | VAR | VAL | STATIC| GLOBAL | NULL | TRUE | FALSE
+private other_keywords ::= L_ANGLE_BRACKET | R_ANGLE_BRACKET | DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING
 
-preprocessor_list ::= preprocessor*
-preprocessor ::= HASH IDENTIFIER*
+preprocessor_list ::= PREPROCESSOR*
 
 import_list ::= import_statement*
-import_statement ::= IMPORT IDENTIFIER (DOT IDENTIFIER)* SEMICOLON
+import_statement ::= IMPORT IDENTIFIER (DOT IDENTIFIER)* (AS IDENTIFIER)? SEMICOLON
 
 // general statement that is valid on it's own
 statement ::= assignStatement SEMICOLON
               | EOL
               | functionCall SEMICOLON
               | for_loop
-              | if_statement /*{recoverWhile=statement_recover}*/
+              | if_statement /*{recoverWhile= statement_recover}*/
 
 private statement_recover ::= SEMICOLON
 
 
 
-bracketHandler ::= L_ANGLE_BRACKET (IDENTIFIER | COLON | DIGITS | ASTERISK)* R_ANGLE_BRACKET
+bracketHandler ::= L_ANGLE_BRACKET (IDENTIFIER | COLON | DIGITS | ASTERISK | SEMICOLON | COMMA | DOT | PLUS | MINUS | BOOL | BYTE | SHORT | INT | LONG | FLOAT | DOUBLE | STRING )* R_ANGLE_BRACKET
 variable ::= IDENTIFIER {methods= [getName getNameIdentifier setName]
                          implements="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsNamedElement"
                          mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"}
@@ -128,14 +132,21 @@ class_name ::= (BOOL | BYTE | SHORT | INT | LONG | FLOAT | DOUBLE | STRING | IDE
 number ::= DIGITS | FLOATING_POINT
 
 
+validCallable ::= bracketHandler
+                  | variable
+                  | DOUBLE_QUOTED_STRING
+                  | SINGLE_QUOTED_STRING
+                  | arrayMapRead
+                  | (L_ROUND_BRACKET validVariable R_ROUND_BRACKET)
+
 validVariable ::= lambda_function_declaration
                   | arrayMapRead
                   | castExpression
                   | equation
-                  | moduloType
-                  | bracketHandler
                   | functionCall
                   | field_reference
+                  | bracketHandler
+                  | moduloType
                   | variable
                   | number
                   | NULL
@@ -146,18 +157,11 @@ validVariable ::= lambda_function_declaration
                   | FALSE
                   | map_declaration
 
-validCallable ::= bracketHandler
-                  | variable
-                  | DOUBLE_QUOTED_STRING
-                  | SINGLE_QUOTED_STRING
-                  | arrayMapRead
-                  | (L_ROUND_BRACKET validVariable R_ROUND_BRACKET)
-
 field_reference ::= validCallable (DOT IDENTIFIER)*
 
 moduloType ::= (bracketHandler | variable) PERC DIGITS
 
-assignStatement ::= (VAR | VAL)? field_reference (AS class_name)? EQUAL (map_declaration | validVariable) /*{mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
+assignStatement ::= (STATIC | GLOBAL)? (VAR | VAL)? field_reference (AS class_name)? EQUAL (validVariable) /*{mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
                                                                implements= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
                                                                methods=[getVariableName getNameIdentifier setVariableName]}*/
 
@@ -166,24 +170,23 @@ map_declaration ::= L_CURLY_BRACKET (map_entry COMMA)* map_entry?  R_CURLY_BRACK
 map_entry ::= validVariable COLON validVariable
 
 
-
-
 functionCall ::= validCallable ((DOT IDENTIFIER)* (L_ROUND_BRACKET R_ROUND_BRACKET | (L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET)))+
 
-arrayDeclaration ::= L_SQUARE_BRACKET validVariable (COMMA validVariable)* R_SQUARE_BRACKET
+arrayDeclaration ::= L_SQUARE_BRACKET validVariable (COMMA validVariable)* COMMA? R_SQUARE_BRACKET
 arrayMapRead ::= IDENTIFIER (DOT IDENTIFIER)* (L_SQUARE_BRACKET (validVariable) R_SQUARE_BRACKET)+
 
-castExpression ::= (arrayDeclaration | IDENTIFIER | bracketHandler) AS class_name
+castExpression ::= (arrayDeclaration | functionCall | field_reference | number | validCallable) AS class_name
 
 // CONTROL STATEMENTS
 statement_body ::= (L_CURLY_BRACKET statement* R_CURLY_BRACKET | function_body)
 return_statement ::= RETURN validVariable SEMICOLON
 
-for_loop ::= FOR (((variable COMMA)? variable in variable) | (variable IN DIGITS ((DOT DOT) | TO) DIGITS)) statement_body
+for_loop ::= FOR (((variable COMMA)? variable IN validVariable) | (variable IN DIGITS ((DOT DOT) | TO) DIGITS)) statement_body
 
-condition ::= validVariable ((EQEQ | NOT_EQUAL | GREATER_EQUAL | LESS_EQUAL | L_ANGLE_BRACKET | R_ANGLE_BRACKET) validVariable)*
+condition ::= unary_math_signs? validVariable ( (IN validVariable) | ((EQEQ | NOT_EQUAL | GREATER_EQUAL | LESS_EQUAL | L_ANGLE_BRACKET | R_ANGLE_BRACKET) validVariable)*)
 
-if_statement ::= IF L_ROUND_BRACKET condition ((OR | AND | XOR) condition)* R_ROUND_BRACKET statement_body (ELSE statement_body)?
+// TODO: check unary ! in the front
+if_statement ::= IF unary_math_signs? L_ROUND_BRACKET condition ((OR | AND | XOR) condition)* R_ROUND_BRACKET (statement_body | statement) (ELSE (statement_body | statement))?
 
 function_declaration ::= FUNCTION IDENTIFIER ((L_ROUND_BRACKET parameter_list R_ROUND_BRACKET) | (L_ROUND_BRACKET R_ROUND_BRACKET)) (AS class_name)? function_body
 lambda_function_declaration ::= FUNCTION ((L_ROUND_BRACKET parameter_list R_ROUND_BRACKET) | (L_ROUND_BRACKET R_ROUND_BRACKET)) (AS class_name)? function_body
@@ -197,9 +200,13 @@ equation ::= unary_math_signs? valid_calculation_variable (binary_math_signs una
 
 private valid_calculation_variable ::= bracketHandler
                                        | functionCall
+                                       | field_reference
                                        | number
                                        | arrayMapRead
                                        | variable
+                                       | SINGLE_QUOTED_STRING
+                                       | DOUBLE_QUOTED_STRING
+
 private binary_math_signs ::= PLUS | MINUS | ASTERISK | DIV
 private unary_math_signs ::= EXCL
 

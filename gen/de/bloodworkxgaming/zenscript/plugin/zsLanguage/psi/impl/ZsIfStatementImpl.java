@@ -34,6 +34,12 @@ public class ZsIfStatementImpl extends ASTWrapperPsiElement implements ZsIfState
 
   @Override
   @NotNull
+  public List<ZsStatement> getStatementList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsStatement.class);
+  }
+
+  @Override
+  @NotNull
   public List<ZsStatementBody> getStatementBodyList() {
     return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsStatementBody.class);
   }

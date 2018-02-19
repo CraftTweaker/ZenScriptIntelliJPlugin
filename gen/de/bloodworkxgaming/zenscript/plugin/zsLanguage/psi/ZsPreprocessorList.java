@@ -7,7 +7,4 @@ import com.intellij.psi.PsiElement;
 
 public interface ZsPreprocessorList extends PsiElement {
 
-  @NotNull
-  List<ZsPreprocessor> getPreprocessorList();
-
 }

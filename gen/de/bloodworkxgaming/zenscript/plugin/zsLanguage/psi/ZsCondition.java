@@ -10,4 +10,7 @@ public interface ZsCondition extends PsiElement {
   @NotNull
   List<ZsValidVariable> getValidVariableList();
 
+  @Nullable
+  PsiElement getIn();
+
 }

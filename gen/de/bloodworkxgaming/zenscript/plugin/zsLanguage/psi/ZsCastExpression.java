@@ -10,13 +10,19 @@ public interface ZsCastExpression extends PsiElement {
   @Nullable
   ZsArrayDeclaration getArrayDeclaration();
 
-  @Nullable
-  ZsBracketHandler getBracketHandler();
-
   @NotNull
   ZsClassName getClassName();
 
   @Nullable
-  PsiElement getIdentifier();
+  ZsFieldReference getFieldReference();
+
+  @Nullable
+  ZsFunctionCall getFunctionCall();
+
+  @Nullable
+  ZsNumber getNumber();
+
+  @Nullable
+  ZsValidCallable getValidCallable();
 
 }

@@ -31,7 +31,6 @@ public interface ZsTypes {
   IElementType NUMBER = new ZsElementType("NUMBER");
   IElementType PARAMETER_LIST = new ZsElementType("PARAMETER_LIST");
   IElementType PARAMETER_VARIABLE = new ZsElementType("PARAMETER_VARIABLE");
-  IElementType PREPROCESSOR = new ZsElementType("PREPROCESSOR");
   IElementType PREPROCESSOR_LIST = new ZsElementType("PREPROCESSOR_LIST");
   IElementType RETURN_STATEMENT = new ZsElementType("RETURN_STATEMENT");
   IElementType STATEMENT = new ZsElementType("STATEMENT");
@@ -65,12 +64,13 @@ public interface ZsTypes {
   IElementType FLOATING_POINT = new ZsTokenType("FLOATING_POINT");
   IElementType FOR = new ZsTokenType("for");
   IElementType FUNCTION = new ZsTokenType("function");
+  IElementType GLOBAL = new ZsTokenType("global");
   IElementType GREATER_EQUAL = new ZsTokenType(">=");
   IElementType HASH = new ZsTokenType("#");
   IElementType IDENTIFIER = new ZsTokenType("IDENTIFIER");
   IElementType IF = new ZsTokenType("if");
   IElementType IMPORT = new ZsTokenType("import");
-  IElementType IN = new ZsTokenType("in");
+  IElementType IN = new ZsTokenType("IN");
   IElementType INT = new ZsTokenType("int");
   IElementType LESS_EQUAL = new ZsTokenType("<=");
   IElementType LINE_COMMENT = new ZsTokenType("LINE_COMMENT");
@@ -85,6 +85,7 @@ public interface ZsTypes {
   IElementType OR = new ZsTokenType("|");
   IElementType PERC = new ZsTokenType("%");
   IElementType PLUS = new ZsTokenType("+");
+  IElementType PREPROCESSOR = new ZsTokenType("PREPROCESSOR");
   IElementType QUEST = new ZsTokenType("?");
   IElementType RETURN = new ZsTokenType("return");
   IElementType R_ANGLE_BRACKET = new ZsTokenType(">");
@@ -94,6 +95,7 @@ public interface ZsTypes {
   IElementType SEMICOLON = new ZsTokenType(";");
   IElementType SHORT = new ZsTokenType("short");
   IElementType SINGLE_QUOTED_STRING = new ZsTokenType("SINGLE_QUOTED_STRING");
+  IElementType STATIC = new ZsTokenType("static");
   IElementType STRING = new ZsTokenType("string");
   IElementType TILDE = new ZsTokenType("~");
   IElementType TO = new ZsTokenType("to");
@@ -175,9 +177,6 @@ public interface ZsTypes {
       }
       else if (type == PARAMETER_VARIABLE) {
         return new ZsParameterVariableImpl(node);
-      }
-      else if (type == PREPROCESSOR) {
-        return new ZsPreprocessorImpl(node);
       }
       else if (type == PREPROCESSOR_LIST) {
         return new ZsPreprocessorListImpl(node);

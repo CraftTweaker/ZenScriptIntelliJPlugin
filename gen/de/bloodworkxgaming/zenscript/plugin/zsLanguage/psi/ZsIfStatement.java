@@ -11,6 +11,9 @@ public interface ZsIfStatement extends PsiElement {
   List<ZsCondition> getConditionList();
 
   @NotNull
+  List<ZsStatement> getStatementList();
+
+  @NotNull
   List<ZsStatementBody> getStatementBodyList();
 
 }

@@ -13,10 +13,7 @@ public interface ZsAssignStatement extends PsiElement {
   @NotNull
   ZsFieldReference getFieldReference();
 
-  @Nullable
-  ZsMapDeclaration getMapDeclaration();
-
-  @Nullable
+  @NotNull
   ZsValidVariable getValidVariable();
 
 }
