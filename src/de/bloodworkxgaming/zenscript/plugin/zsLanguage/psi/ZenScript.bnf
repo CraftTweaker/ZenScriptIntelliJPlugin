@@ -123,12 +123,13 @@ bracketHandler ::= L_ANGLE_BRACKET (IDENTIFIER | COLON | DIGITS | ASTERISK)* R_A
 variable ::= IDENTIFIER {methods= [getName getNameIdentifier setName]
                          implements="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsNamedElement"
                          mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"}
-class_name ::= IDENTIFIER (L_SQUARE_BRACKET R_SQUARE_BRACKET)*
+class_name ::= (BOOL | BYTE | SHORT | INT | LONG | FLOAT | DOUBLE | STRING | IDENTIFIER) (L_SQUARE_BRACKET class_name? R_SQUARE_BRACKET)*
 
 number ::= DIGITS | FLOATING_POINT
 
 
 validVariable ::= lambda_function_declaration
+                  | arrayMapRead
                   | castExpression
                   | equation
                   | moduloType
@@ -141,28 +142,36 @@ validVariable ::= lambda_function_declaration
                   | DOUBLE_QUOTED_STRING
                   | SINGLE_QUOTED_STRING
                   | arrayDeclaration
-                  | arrayRead
                   | TRUE
                   | FALSE
+                  | map_declaration
 
 validCallable ::= bracketHandler
                   | variable
                   | DOUBLE_QUOTED_STRING
                   | SINGLE_QUOTED_STRING
-                  | arrayRead
+                  | arrayMapRead
                   | (L_ROUND_BRACKET validVariable R_ROUND_BRACKET)
 
 field_reference ::= validCallable (DOT IDENTIFIER)*
 
 moduloType ::= (bracketHandler | variable) PERC DIGITS
 
-assignStatement ::= (VAR | VAL)? field_reference EQUAL validVariable /*{mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
+assignStatement ::= (VAR | VAL)? field_reference (AS class_name)? EQUAL (map_declaration | validVariable) /*{mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
                                                                implements= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
                                                                methods=[getVariableName getNameIdentifier setVariableName]}*/
+
+
+map_declaration ::= L_CURLY_BRACKET (map_entry COMMA)* map_entry?  R_CURLY_BRACKET (AS class_name)?
+map_entry ::= validVariable COLON validVariable
+
+
+
+
 functionCall ::= validCallable ((DOT IDENTIFIER)* (L_ROUND_BRACKET R_ROUND_BRACKET | (L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET)))+
 
 arrayDeclaration ::= L_SQUARE_BRACKET validVariable (COMMA validVariable)* R_SQUARE_BRACKET
-arrayRead ::= IDENTIFIER (DOT IDENTIFIER)* (L_SQUARE_BRACKET DIGITS R_SQUARE_BRACKET)+
+arrayMapRead ::= IDENTIFIER (DOT IDENTIFIER)* (L_SQUARE_BRACKET (validVariable) R_SQUARE_BRACKET)+
 
 castExpression ::= (arrayDeclaration | IDENTIFIER | bracketHandler) AS class_name
 
@@ -189,7 +198,7 @@ equation ::= unary_math_signs? valid_calculation_variable (binary_math_signs una
 private valid_calculation_variable ::= bracketHandler
                                        | functionCall
                                        | number
-                                       | arrayRead
+                                       | arrayMapRead
                                        | variable
 private binary_math_signs ::= PLUS | MINUS | ASTERISK | DIV
 private unary_math_signs ::= EXCL

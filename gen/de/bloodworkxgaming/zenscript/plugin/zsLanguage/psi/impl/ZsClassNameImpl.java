@@ -28,8 +28,14 @@ public class ZsClassNameImpl extends ASTWrapperPsiElement implements ZsClassName
 
   @Override
   @NotNull
+  public List<ZsClassName> getClassNameList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsClassName.class);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getIdentifier() {
-    return findNotNullChildByType(IDENTIFIER);
+    return findChildByType(IDENTIFIER);
   }
 
 }

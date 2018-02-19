@@ -11,14 +11,14 @@ import static de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.*;
 
-public class ZsAssignStatementImpl extends ASTWrapperPsiElement implements ZsAssignStatement {
+public class ZsMapDeclarationImpl extends ASTWrapperPsiElement implements ZsMapDeclaration {
 
-  public ZsAssignStatementImpl(ASTNode node) {
+  public ZsMapDeclarationImpl(ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull ZsVisitor visitor) {
-    visitor.visitAssignStatement(this);
+    visitor.visitMapDeclaration(this);
   }
 
   public void accept(@NotNull PsiElementVisitor visitor) {
@@ -34,20 +34,8 @@ public class ZsAssignStatementImpl extends ASTWrapperPsiElement implements ZsAss
 
   @Override
   @NotNull
-  public ZsFieldReference getFieldReference() {
-    return findNotNullChildByClass(ZsFieldReference.class);
-  }
-
-  @Override
-  @Nullable
-  public ZsMapDeclaration getMapDeclaration() {
-    return findChildByClass(ZsMapDeclaration.class);
-  }
-
-  @Override
-  @Nullable
-  public ZsValidVariable getValidVariable() {
-    return findChildByClass(ZsValidVariable.class);
+  public List<ZsMapEntry> getMapEntryList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsMapEntry.class);
   }
 
 }

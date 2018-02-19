@@ -5,12 +5,12 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface ZsClassName extends PsiElement {
-
-  @NotNull
-  List<ZsClassName> getClassNameList();
+public interface ZsMapDeclaration extends PsiElement {
 
   @Nullable
-  PsiElement getIdentifier();
+  ZsClassName getClassName();
+
+  @NotNull
+  List<ZsMapEntry> getMapEntryList();
 
 }

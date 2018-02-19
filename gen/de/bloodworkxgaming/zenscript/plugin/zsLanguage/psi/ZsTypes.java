@@ -9,7 +9,7 @@ import de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.*;
 public interface ZsTypes {
 
   IElementType ARRAY_DECLARATION = new ZsElementType("ARRAY_DECLARATION");
-  IElementType ARRAY_READ = new ZsElementType("ARRAY_READ");
+  IElementType ARRAY_MAP_READ = new ZsElementType("ARRAY_MAP_READ");
   IElementType ASSIGN_STATEMENT = new ZsElementType("ASSIGN_STATEMENT");
   IElementType BRACKET_HANDLER = new ZsElementType("BRACKET_HANDLER");
   IElementType CAST_EXPRESSION = new ZsElementType("CAST_EXPRESSION");
@@ -25,6 +25,8 @@ public interface ZsTypes {
   IElementType IMPORT_LIST = new ZsElementType("IMPORT_LIST");
   IElementType IMPORT_STATEMENT = new ZsElementType("IMPORT_STATEMENT");
   IElementType LAMBDA_FUNCTION_DECLARATION = new ZsElementType("LAMBDA_FUNCTION_DECLARATION");
+  IElementType MAP_DECLARATION = new ZsElementType("MAP_DECLARATION");
+  IElementType MAP_ENTRY = new ZsElementType("MAP_ENTRY");
   IElementType MODULO_TYPE = new ZsElementType("MODULO_TYPE");
   IElementType NUMBER = new ZsElementType("NUMBER");
   IElementType PARAMETER_LIST = new ZsElementType("PARAMETER_LIST");
@@ -108,8 +110,8 @@ public interface ZsTypes {
        if (type == ARRAY_DECLARATION) {
         return new ZsArrayDeclarationImpl(node);
       }
-      else if (type == ARRAY_READ) {
-        return new ZsArrayReadImpl(node);
+      else if (type == ARRAY_MAP_READ) {
+        return new ZsArrayMapReadImpl(node);
       }
       else if (type == ASSIGN_STATEMENT) {
         return new ZsAssignStatementImpl(node);
@@ -155,6 +157,12 @@ public interface ZsTypes {
       }
       else if (type == LAMBDA_FUNCTION_DECLARATION) {
         return new ZsLambdaFunctionDeclarationImpl(node);
+      }
+      else if (type == MAP_DECLARATION) {
+        return new ZsMapDeclarationImpl(node);
+      }
+      else if (type == MAP_ENTRY) {
+        return new ZsMapEntryImpl(node);
       }
       else if (type == MODULO_TYPE) {
         return new ZsModuloTypeImpl(node);

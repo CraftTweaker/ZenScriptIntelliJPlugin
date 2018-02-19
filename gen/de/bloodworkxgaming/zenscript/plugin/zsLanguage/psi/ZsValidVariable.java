@@ -11,7 +11,7 @@ public interface ZsValidVariable extends PsiElement {
   ZsArrayDeclaration getArrayDeclaration();
 
   @Nullable
-  ZsArrayRead getArrayRead();
+  ZsArrayMapRead getArrayMapRead();
 
   @Nullable
   ZsBracketHandler getBracketHandler();
@@ -30,6 +30,9 @@ public interface ZsValidVariable extends PsiElement {
 
   @Nullable
   ZsLambdaFunctionDeclaration getLambdaFunctionDeclaration();
+
+  @Nullable
+  ZsMapDeclaration getMapDeclaration();
 
   @Nullable
   ZsModuloType getModuloType();

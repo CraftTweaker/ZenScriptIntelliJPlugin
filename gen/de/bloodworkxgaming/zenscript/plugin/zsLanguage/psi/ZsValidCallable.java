@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ZsValidCallable extends PsiElement {
 
   @Nullable
-  ZsArrayRead getArrayRead();
+  ZsArrayMapRead getArrayMapRead();
 
   @Nullable
   ZsBracketHandler getBracketHandler();

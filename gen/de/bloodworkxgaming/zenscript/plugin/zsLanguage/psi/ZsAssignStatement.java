@@ -7,10 +7,16 @@ import com.intellij.psi.PsiElement;
 
 public interface ZsAssignStatement extends PsiElement {
 
+  @Nullable
+  ZsClassName getClassName();
+
   @NotNull
   ZsFieldReference getFieldReference();
 
-  @NotNull
+  @Nullable
+  ZsMapDeclaration getMapDeclaration();
+
+  @Nullable
   ZsValidVariable getValidVariable();
 
 }

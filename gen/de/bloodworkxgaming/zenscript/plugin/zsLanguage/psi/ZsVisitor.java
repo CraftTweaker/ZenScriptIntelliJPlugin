@@ -11,7 +11,7 @@ public class ZsVisitor extends PsiElementVisitor {
     visitPsiElement(o);
   }
 
-  public void visitArrayRead(@NotNull ZsArrayRead o) {
+  public void visitArrayMapRead(@NotNull ZsArrayMapRead o) {
     visitPsiElement(o);
   }
 
@@ -72,6 +72,14 @@ public class ZsVisitor extends PsiElementVisitor {
   }
 
   public void visitLambdaFunctionDeclaration(@NotNull ZsLambdaFunctionDeclaration o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMapDeclaration(@NotNull ZsMapDeclaration o) {
+    visitPsiElement(o);
+  }
+
+  public void visitMapEntry(@NotNull ZsMapEntry o) {
     visitPsiElement(o);
   }
 

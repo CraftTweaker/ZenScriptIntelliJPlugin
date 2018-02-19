@@ -28,8 +28,8 @@ public class ZsEquationImpl extends ASTWrapperPsiElement implements ZsEquation {
 
   @Override
   @NotNull
-  public List<ZsArrayRead> getArrayReadList() {
-    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsArrayRead.class);
+  public List<ZsArrayMapRead> getArrayMapReadList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsArrayMapRead.class);
   }
 
   @Override

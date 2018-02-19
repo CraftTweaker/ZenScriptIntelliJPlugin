@@ -34,8 +34,8 @@ public class ZsValidVariableImpl extends ASTWrapperPsiElement implements ZsValid
 
   @Override
   @Nullable
-  public ZsArrayRead getArrayRead() {
-    return findChildByClass(ZsArrayRead.class);
+  public ZsArrayMapRead getArrayMapRead() {
+    return findChildByClass(ZsArrayMapRead.class);
   }
 
   @Override
@@ -72,6 +72,12 @@ public class ZsValidVariableImpl extends ASTWrapperPsiElement implements ZsValid
   @Nullable
   public ZsLambdaFunctionDeclaration getLambdaFunctionDeclaration() {
     return findChildByClass(ZsLambdaFunctionDeclaration.class);
+  }
+
+  @Override
+  @Nullable
+  public ZsMapDeclaration getMapDeclaration() {
+    return findChildByClass(ZsMapDeclaration.class);
   }
 
   @Override

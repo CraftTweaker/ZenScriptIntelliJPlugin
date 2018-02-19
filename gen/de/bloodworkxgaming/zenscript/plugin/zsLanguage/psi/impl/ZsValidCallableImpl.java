@@ -28,8 +28,8 @@ public class ZsValidCallableImpl extends ASTWrapperPsiElement implements ZsValid
 
   @Override
   @Nullable
-  public ZsArrayRead getArrayRead() {
-    return findChildByClass(ZsArrayRead.class);
+  public ZsArrayMapRead getArrayMapRead() {
+    return findChildByClass(ZsArrayMapRead.class);
   }
 
   @Override

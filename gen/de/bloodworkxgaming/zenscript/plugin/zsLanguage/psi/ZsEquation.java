@@ -8,7 +8,7 @@ import com.intellij.psi.PsiElement;
 public interface ZsEquation extends PsiElement {
 
   @NotNull
-  List<ZsArrayRead> getArrayReadList();
+  List<ZsArrayMapRead> getArrayMapReadList();
 
   @NotNull
   List<ZsBracketHandler> getBracketHandlerList();
