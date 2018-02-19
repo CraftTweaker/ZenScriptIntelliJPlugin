@@ -40,6 +40,12 @@ public class ZsValidCallableImpl extends ASTWrapperPsiElement implements ZsValid
 
   @Override
   @Nullable
+  public ZsValidVariable getValidVariable() {
+    return findChildByClass(ZsValidVariable.class);
+  }
+
+  @Override
+  @Nullable
   public ZsVariable getVariable() {
     return findChildByClass(ZsVariable.class);
   }

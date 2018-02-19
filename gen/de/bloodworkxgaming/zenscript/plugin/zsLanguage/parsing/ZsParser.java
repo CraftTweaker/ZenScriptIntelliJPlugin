@@ -999,7 +999,7 @@ public class ZsParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (bracketHandler | variable)PERC DIGITS
+  // (bracketHandler | variable) PERC DIGITS
   public static boolean moduloType(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "moduloType")) return false;
     if (!nextTokenIs(b, "<modulo type>", IDENTIFIER, L_ANGLE_BRACKET)) return false;
@@ -1252,6 +1252,7 @@ public class ZsParser implements PsiParser, LightPsiParser {
   //                   | DOUBLE_QUOTED_STRING
   //                   | SINGLE_QUOTED_STRING
   //                   | arrayRead
+  //                   | (L_ROUND_BRACKET validVariable R_ROUND_BRACKET)
   public static boolean validCallable(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "validCallable")) return false;
     boolean r;
@@ -1261,7 +1262,20 @@ public class ZsParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, DOUBLE_QUOTED_STRING);
     if (!r) r = consumeToken(b, SINGLE_QUOTED_STRING);
     if (!r) r = arrayRead(b, l + 1);
+    if (!r) r = validCallable_5(b, l + 1);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // L_ROUND_BRACKET validVariable R_ROUND_BRACKET
+  private static boolean validCallable_5(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "validCallable_5")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, L_ROUND_BRACKET);
+    r = r && validVariable(b, l + 1);
+    r = r && consumeToken(b, R_ROUND_BRACKET);
+    exit_section_(b, m, null, r);
     return r;
   }
 
@@ -1269,6 +1283,7 @@ public class ZsParser implements PsiParser, LightPsiParser {
   // lambda_function_declaration
   //                   | castExpression
   //                   | equation
+  //                   | moduloType
   //                   | bracketHandler
   //                   | functionCall
   //                   | field_reference
@@ -1279,7 +1294,6 @@ public class ZsParser implements PsiParser, LightPsiParser {
   //                   | SINGLE_QUOTED_STRING
   //                   | arrayDeclaration
   //                   | arrayRead
-  //                   | moduloType
   //                   | TRUE
   //                   | FALSE
   public static boolean validVariable(PsiBuilder b, int l) {
@@ -1289,6 +1303,7 @@ public class ZsParser implements PsiParser, LightPsiParser {
     r = lambda_function_declaration(b, l + 1);
     if (!r) r = castExpression(b, l + 1);
     if (!r) r = equation(b, l + 1);
+    if (!r) r = moduloType(b, l + 1);
     if (!r) r = bracketHandler(b, l + 1);
     if (!r) r = functionCall(b, l + 1);
     if (!r) r = field_reference(b, l + 1);
@@ -1299,7 +1314,6 @@ public class ZsParser implements PsiParser, LightPsiParser {
     if (!r) r = consumeToken(b, SINGLE_QUOTED_STRING);
     if (!r) r = arrayDeclaration(b, l + 1);
     if (!r) r = arrayRead(b, l + 1);
-    if (!r) r = moduloType(b, l + 1);
     if (!r) r = consumeToken(b, TRUE);
     if (!r) r = consumeToken(b, FALSE);
     exit_section_(b, l, m, r, false, null);

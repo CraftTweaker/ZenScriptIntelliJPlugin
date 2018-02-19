@@ -14,6 +14,9 @@ public interface ZsValidCallable extends PsiElement {
   ZsBracketHandler getBracketHandler();
 
   @Nullable
+  ZsValidVariable getValidVariable();
+
+  @Nullable
   ZsVariable getVariable();
 
   @Nullable

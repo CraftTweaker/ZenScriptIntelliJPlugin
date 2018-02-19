@@ -1,6 +1,6 @@
 {
     parserClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.parsing.ZsParser"
-  parserUtilClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.parsing.ZsParserUtil"
+    parserUtilClass="de.bloodworkxgaming.zenscript.plugin.zsLanguage.parsing.ZsParserUtil"
 
     extends="com.intellij.extapi.psi.ASTWrapperPsiElement"
 
@@ -131,6 +131,7 @@ number ::= DIGITS | FLOATING_POINT
 validVariable ::= lambda_function_declaration
                   | castExpression
                   | equation
+                  | moduloType
                   | bracketHandler
                   | functionCall
                   | field_reference
@@ -141,7 +142,6 @@ validVariable ::= lambda_function_declaration
                   | SINGLE_QUOTED_STRING
                   | arrayDeclaration
                   | arrayRead
-                  | moduloType
                   | TRUE
                   | FALSE
 
@@ -150,10 +150,11 @@ validCallable ::= bracketHandler
                   | DOUBLE_QUOTED_STRING
                   | SINGLE_QUOTED_STRING
                   | arrayRead
+                  | (L_ROUND_BRACKET validVariable R_ROUND_BRACKET)
 
 field_reference ::= validCallable (DOT IDENTIFIER)*
 
-moduloType ::= (bracketHandler | variable)PERC DIGITS
+moduloType ::= (bracketHandler | variable) PERC DIGITS
 
 assignStatement ::= (VAR | VAL)? field_reference EQUAL validVariable /*{mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
                                                                implements= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"
