@@ -11,6 +11,9 @@ public interface ZsNumber extends PsiElement {
   PsiElement getDigits();
 
   @Nullable
+  PsiElement getExpNumber();
+
+  @Nullable
   PsiElement getFloatingPoint();
 
 }

@@ -32,6 +32,7 @@ SINGLE_QUOTED_STRING='([^\\'\r\n]|\\[^\r\n])*'?
 PREPROCESSOR=#[^ \t\n\x0B\f\r].*\R
 DIGITS=-?[0-9]+
 FLOATING_POINT={DIGITS}\.[0-9]+
+EXP_NUMBER={FLOATING_POINT}[Ee]-?[0-9]+
 IN=in|has
 EOL=\R
 IDENTIFIER=[:jletter:] [:jletterdigit:]*
@@ -66,6 +67,7 @@ IDENTIFIER=[:jletter:] [:jletterdigit:]*
   ";"                         { return SEMICOLON; }
   ","                         { return COMMA; }
   "."                         { return DOT; }
+  ".."                        { return DOTDOT; }
   "=="                        { return EQEQ; }
   "!="                        { return NOT_EQUAL; }
   "<="                        { return LESS_EQUAL; }
@@ -104,6 +106,7 @@ IDENTIFIER=[:jletter:] [:jletterdigit:]*
   {PREPROCESSOR}              { return PREPROCESSOR; }
   {DIGITS}                    { return DIGITS; }
   {FLOATING_POINT}            { return FLOATING_POINT; }
+  {EXP_NUMBER}                { return EXP_NUMBER; }
   {IN}                        { return IN; }
   {EOL}                       { return EOL; }
   {IDENTIFIER}                { return IDENTIFIER; }

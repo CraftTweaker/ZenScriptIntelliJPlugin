@@ -34,6 +34,12 @@ public class ZsNumberImpl extends ASTWrapperPsiElement implements ZsNumber {
 
   @Override
   @Nullable
+  public PsiElement getExpNumber() {
+    return findChildByType(EXP_NUMBER);
+  }
+
+  @Override
+  @Nullable
   public PsiElement getFloatingPoint() {
     return findChildByType(FLOATING_POINT);
   }

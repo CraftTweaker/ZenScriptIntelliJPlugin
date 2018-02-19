@@ -52,6 +52,7 @@ public interface ZsTypes {
   IElementType DIGITS = new ZsTokenType("DIGITS");
   IElementType DIV = new ZsTokenType("/");
   IElementType DOT = new ZsTokenType(".");
+  IElementType DOTDOT = new ZsTokenType("..");
   IElementType DOUBLE = new ZsTokenType("double");
   IElementType DOUBLE_QUOTED_STRING = new ZsTokenType("DOUBLE_QUOTED_STRING");
   IElementType ELSE = new ZsTokenType("else");
@@ -59,6 +60,7 @@ public interface ZsTypes {
   IElementType EQEQ = new ZsTokenType("==");
   IElementType EQUAL = new ZsTokenType("=");
   IElementType EXCL = new ZsTokenType("!");
+  IElementType EXP_NUMBER = new ZsTokenType("EXP_NUMBER");
   IElementType FALSE = new ZsTokenType("false");
   IElementType FLOAT = new ZsTokenType("float");
   IElementType FLOATING_POINT = new ZsTokenType("FLOATING_POINT");

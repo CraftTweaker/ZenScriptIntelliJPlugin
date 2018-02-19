@@ -26,4 +26,10 @@ public class ZsBracketHandlerImpl extends ASTWrapperPsiElement implements ZsBrac
     else super.accept(visitor);
   }
 
+  @Override
+  @NotNull
+  public List<ZsNumber> getNumberList() {
+    return PsiTreeUtil.getChildrenOfTypeAsList(this, ZsNumber.class);
+  }
+
 }

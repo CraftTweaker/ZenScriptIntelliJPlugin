@@ -80,6 +80,7 @@ public class ZsSyntaxHighlighter extends SyntaxHighlighterBase {
     private  boolean isNumber (IElementType tokenType){
         return tokenType.equals(ZsTypes.NUMBER) |
                 tokenType.equals(ZsTypes.DIGITS) |
+                tokenType.equals(ZsTypes.EXP_NUMBER) |
                 tokenType.equals(ZsTypes.FLOATING_POINT);
     }
 

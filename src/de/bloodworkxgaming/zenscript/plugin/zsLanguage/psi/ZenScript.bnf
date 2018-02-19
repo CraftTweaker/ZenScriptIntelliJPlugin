@@ -46,6 +46,7 @@
         SEMICOLON       = ";"
         COMMA           = ","
         DOT             = "."
+        DOTDOT          = ".."
 
         EQEQ            = "=="
         NOT_EQUAL       = "!="
@@ -61,6 +62,7 @@
 
         DIGITS          = "regexp:-?[0-9]+"
         FLOATING_POINT  = "regexp:{DIGITS}\.[0-9]+"
+        EXP_NUMBER  = "regexp:{FLOATING_POINT}[Ee]-?[0-9]+"
 
         // types
         ANY         = "any"
@@ -104,8 +106,6 @@
 
 zsFile ::= preprocessor_list? import_list (statement | function_declaration )*
 
-private keywords ::= L_ROUND_BRACKET | R_ROUND_BRACKET | L_SQUARE_BRACKET | R_SQUARE_BRACKET | L_CURLY_BRACKET | R_CURLY_BRACKET | EQUAL | EXCL | TILDE | QUEST | COLON | PLUS | MINUS | ASTERISK | DIV | OR | AND | XOR | PERC | AT | HASH | SEMICOLON | COMMA | DOT | EQEQ | NOT_EQUAL | LESS_EQUAL | GREATER_EQUAL | ANY   | BOOL  | BYTE  | SHORT | INT   | LONG  | FLOAT | DOUBLE| STRING| FUNCTION| IN | TO | VOID | AS | VERSION | IF | ELSE | FOR | RETURN | IMPORT | VAR | VAL | STATIC| GLOBAL | NULL | TRUE | FALSE
-private other_keywords ::= L_ANGLE_BRACKET | R_ANGLE_BRACKET | DOUBLE_QUOTED_STRING | SINGLE_QUOTED_STRING
 
 preprocessor_list ::= PREPROCESSOR*
 
@@ -122,14 +122,15 @@ statement ::= assignStatement SEMICOLON
 private statement_recover ::= SEMICOLON
 
 
+private bracket_keywords ::= IDENTIFIER | number | L_ROUND_BRACKET | R_ROUND_BRACKET | L_SQUARE_BRACKET | R_SQUARE_BRACKET | L_CURLY_BRACKET | R_CURLY_BRACKET | EQUAL | EXCL | TILDE | QUEST | COLON | PLUS | MINUS | ASTERISK | DIV | OR | AND | XOR | PERC | AT | HASH | SEMICOLON | COMMA | DOT | EQEQ | NOT_EQUAL | LESS_EQUAL | GREATER_EQUAL | ANY   | BOOL  | BYTE  | SHORT | INT   | LONG  | FLOAT | DOUBLE| STRING| FUNCTION| IN | TO | VOID | AS | VERSION | IF | ELSE | FOR | RETURN | IMPORT | VAR | VAL | STATIC| GLOBAL | NULL | TRUE | FALSE
+bracketHandler ::= L_ANGLE_BRACKET (bracket_keywords)* R_ANGLE_BRACKET
 
-bracketHandler ::= L_ANGLE_BRACKET (IDENTIFIER | COLON | DIGITS | ASTERISK | SEMICOLON | COMMA | DOT | PLUS | MINUS | BOOL | BYTE | SHORT | INT | LONG | FLOAT | DOUBLE | STRING )* R_ANGLE_BRACKET
 variable ::= IDENTIFIER {methods= [getName getNameIdentifier setName]
                          implements="de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.ZsNamedElement"
                          mixin= "de.bloodworkxgaming.zenscript.plugin.zsLanguage.psi.impl.ZsNamedElementImpl"}
 class_name ::= (BOOL | BYTE | SHORT | INT | LONG | FLOAT | DOUBLE | STRING | IDENTIFIER) (L_SQUARE_BRACKET class_name? R_SQUARE_BRACKET)*
 
-number ::= DIGITS | FLOATING_POINT
+number ::= DIGITS | FLOATING_POINT | EXP_NUMBER
 
 
 validCallable ::= bracketHandler
@@ -140,13 +141,13 @@ validCallable ::= bracketHandler
                   | (L_ROUND_BRACKET validVariable R_ROUND_BRACKET)
 
 validVariable ::= lambda_function_declaration
+                  | moduloType
                   | arrayMapRead
                   | castExpression
                   | equation
                   | functionCall
                   | field_reference
                   | bracketHandler
-                  | moduloType
                   | variable
                   | number
                   | NULL
@@ -172,7 +173,7 @@ map_entry ::= validVariable COLON validVariable
 
 functionCall ::= validCallable ((DOT IDENTIFIER)* (L_ROUND_BRACKET R_ROUND_BRACKET | (L_ROUND_BRACKET (validVariable (COMMA validVariable)*) R_ROUND_BRACKET)))+
 
-arrayDeclaration ::= L_SQUARE_BRACKET validVariable (COMMA validVariable)* COMMA? R_SQUARE_BRACKET
+arrayDeclaration ::= L_SQUARE_BRACKET (validVariable (COMMA validVariable)* COMMA?)? R_SQUARE_BRACKET
 arrayMapRead ::= IDENTIFIER (DOT IDENTIFIER)* (L_SQUARE_BRACKET (validVariable) R_SQUARE_BRACKET)+
 
 castExpression ::= (arrayDeclaration | functionCall | field_reference | number | validCallable) AS class_name
@@ -181,7 +182,7 @@ castExpression ::= (arrayDeclaration | functionCall | field_reference | number |
 statement_body ::= (L_CURLY_BRACKET statement* R_CURLY_BRACKET | function_body)
 return_statement ::= RETURN validVariable SEMICOLON
 
-for_loop ::= FOR (((variable COMMA)? variable IN validVariable) | (variable IN DIGITS ((DOT DOT) | TO) DIGITS)) statement_body
+for_loop ::= FOR ((variable IN DIGITS ((DOTDOT) | TO) DIGITS) | ((variable COMMA)? variable IN validVariable)) statement_body
 
 condition ::= unary_math_signs? validVariable ( (IN validVariable) | ((EQEQ | NOT_EQUAL | GREATER_EQUAL | LESS_EQUAL | L_ANGLE_BRACKET | R_ANGLE_BRACKET) validVariable)*)
 
